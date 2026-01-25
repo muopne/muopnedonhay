@@ -3,65 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MƯỚP NÈ - PRECISION ENGINE 200</title>
+    <title>MƯỚP NÈ - HỆ THỐNG ĐỘ NHẠY OB52</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap');
         body { background: #020617; color: #f1f5f9; font-family: 'Lexend', sans-serif; overflow-x: hidden; }
         .pro-card { background: #0f172a; border: 1px solid #1e293b; box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8); }
         .accent-cyan { color: #22d3ee; }
-        .btn-main { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; font-weight: 800; transition: 0.3s; }
+        .btn-main { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; font-weight: 800; transition: 0.3s; border: none; }
         .btn-main:hover { box-shadow: 0 0 30px rgba(6, 182, 212, 0.6); transform: translateY(-2px); }
         .state-btn { border: 1px solid #334155; transition: 0.2s; cursor: pointer; background: #1e293b; color: #94a3b8; }
         .state-btn.active { background: #0ea5e9; border-color: #38bdf8; color: #fff; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); }
-        input, textarea { background: #020617 !important; border: 1px solid #334155 !important; color: #fff !important; outline: none; }
+        input { background: #020617 !important; border: 1px solid #334155 !important; color: #fff !important; outline: none; }
         #live-notify { position: fixed; top: 20px; right: 20px; z-index: 1000; transform: translateX(250%); transition: 0.6s; }
         #live-notify.active { transform: translateX(0); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div id="live-notify" class="pro-card p-4 rounded-xl flex items-center border-l-4 border-cyan-500 w-[290px] bg-black/95">
+    <div id="live-notify" class="pro-card p-4 rounded-xl flex items-center border-l-4 border-cyan-500 w-[280px] bg-black/95">
         <div class="h-2 w-2 bg-cyan-500 rounded-full animate-pulse mr-3"></div>
         <div class="text-[11px]">
-            <p class="font-bold text-white mb-0.5 uppercase italic">Hệ thống Calibration</p>
-            <p class="text-slate-400 italic" id="notify-device">Đang đồng bộ cấu hình...</p>
+            <p class="font-bold text-white mb-0.5 uppercase italic">Hệ thống đồng bộ</p>
+            <p class="text-slate-400 italic" id="notify-text">Đang quét cấu hình...</p>
         </div>
     </div>
 
     <div id="access-screen" class="pro-card p-10 rounded-[2.5rem] w-full max-w-sm text-center border-t-4 border-cyan-500">
         <h1 class="text-3xl font-black mb-1 italic uppercase tracking-tight">MƯỚP <span class="accent-cyan">NÈ</span></h1>
-        <p class="text-slate-500 text-[9px] mb-8 uppercase tracking-[0.4em]">Max Precision Lock 200</p>
+        <p class="text-slate-500 text-[9px] mb-8 uppercase tracking-[0.4em]">Global Sync Engine v8.2</p>
         <div class="space-y-4">
-            <input type="text" id="access-pass" class="w-full p-4 rounded-2xl text-center font-mono uppercase tracking-widest border-slate-700" placeholder="MÃ TRUY CẬP NGÀY">
-            <button onclick="checkAccess()" class="w-full btn-main py-4 rounded-2xl text-xs uppercase italic tracking-widest">Kích hoạt Engine</button>
+            <input type="text" id="access-pass" class="w-full p-4 rounded-2xl text-center font-mono uppercase tracking-widest border-slate-700" placeholder="NHẬP MÃ NGÀY">
+            <button onclick="checkAccess()" class="w-full btn-main py-4 rounded-2xl text-xs uppercase italic tracking-widest">KÍCH HOẠT ENGINE</button>
         </div>
-        <p onclick="showAdminLogin()" class="mt-8 text-[9px] text-slate-700 cursor-pointer hover:text-cyan-500 uppercase font-bold transition">Admin Control</p>
+        <p class="mt-8 text-[9px] text-slate-700 uppercase font-bold tracking-widest">Mã đổi tự động theo lịch</p>
     </div>
 
-    <div id="main-screen" class="hidden w-full max-w-xl animate-in fade-in duration-500">
-        <div class="pro-card p-5 rounded-2xl mb-4 border-dashed border-cyan-500/40 bg-cyan-900/10">
-            <p id="display-admin-note" class="text-xs text-slate-300 italic text-center font-medium"></p>
-        </div>
-
+    <div id="main-screen" class="hidden w-full max-w-xl animate-in fade-in duration-700">
         <div class="pro-card p-6 rounded-[2rem] mb-4">
             <div class="space-y-6">
                 <div>
-                    <label class="text-[10px] text-slate-500 uppercase font-bold ml-1 mb-2 block tracking-widest">Thiết bị hiệu chuẩn</label>
+                    <label class="text-[10px] text-slate-500 uppercase font-bold ml-1 mb-2 block tracking-widest">Định danh máy</label>
                     <input type="text" id="device-name" class="w-full p-4 rounded-2xl font-bold uppercase text-sm border-slate-700" placeholder="VD: IPHONE 15 PRO MAX">
                 </div>
                 <div>
-                    <label class="text-[10px] text-slate-500 uppercase font-bold ml-1 mb-2 block tracking-widest">Tình trạng cảm ứng hiện tại</label>
+                    <label class="text-[10px] text-slate-500 uppercase font-bold ml-1 mb-2 block tracking-widest">Tùy chỉnh cảm ứng</label>
                     <div class="grid grid-cols-2 gap-2">
                         <div id="st-nặng" onclick="toggleState('nặng')" class="state-btn p-3 rounded-xl text-center text-[10px] font-bold">NẶNG TÂM</div>
-                        <div id="st-rung" onclick="toggleState('rung')" class="state-btn p-3 rounded-xl text-center text-[10px] font-bold">RUNG TÂM</div>
                         <div id="st-lố" onclick="toggleState('lố')" class="state-btn p-3 rounded-xl text-center text-[10px] font-bold">LỐ ĐẦU</div>
-                        <div id="st-lag" onclick="toggleState('lag')" class="state-btn p-3 rounded-xl text-center text-[10px] font-bold">LAG</div>
                     </div>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="calculateSens()" class="flex-[2] btn-main p-4 rounded-2xl text-xs uppercase italic">HIỆU CHUẨN ĐỘ NHẠY</button>
-                    <button onclick="handleVipToggle()" id="btn-vip" class="flex-1 bg-slate-800 text-slate-500 p-4 rounded-2xl text-[10px] font-bold uppercase border border-slate-700">VIP MODE</button>
+                    <button id="btn-vip" onclick="handleVipToggle()" class="flex-1 bg-slate-800 text-slate-500 p-4 rounded-2xl text-[10px] font-bold uppercase border border-slate-700">VIP MODE</button>
                 </div>
             </div>
         </div>
@@ -76,108 +70,58 @@
         </div>
     </div>
 
-    <div id="admin-screen" class="hidden pro-card p-8 rounded-[2.5rem] w-full max-w-4xl border-t-4 border-red-600">
-        <h2 class="text-xl font-black mb-6 text-red-500 uppercase text-center italic tracking-widest">Hệ Thống Quản Trị</h2>
-        <div id="admin-login-fields" class="max-w-sm mx-auto space-y-4">
-            <input type="password" id="ad-pass-input" class="w-full p-4 rounded-2xl" placeholder="PASS ADMIN">
-            <button onclick="loginAdmin()" class="w-full bg-red-600 p-4 rounded-2xl font-bold text-white uppercase text-xs">Vào Quản Lý</button>
-        </div>
-        <div id="admin-tools" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
-                        <label class="text-cyan-500 font-bold uppercase text-[9px] block mb-2">Thông báo người dùng:</label>
-                        <textarea id="admin-note-input" rows="3" class="w-full p-3 rounded-xl text-xs"></textarea>
-                    </div>
-                    <div class="p-4 bg-green-950/20 border border-green-500/30 rounded-2xl">
-                        <p class="text-green-500 font-bold text-[9px] uppercase mb-1 italic text-center">Pass VIP (3 Ngày/Lần)</p>
-                        <div class="grid grid-cols-1 gap-2" id="admin-vip-list"></div>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-red-400 font-bold uppercase text-[9px] mb-3 text-center">Pass Thường (2 Ngày/Lần)</p>
-                    <div class="grid grid-cols-1 gap-2 max-h-[350px] overflow-y-auto pr-2" id="admin-pass-list"></div>
-                </div>
-            </div>
-            <div class="pt-4 flex gap-2">
-                <button onclick="saveAdmin()" class="flex-1 bg-green-600 p-4 rounded-2xl font-bold text-xs text-white uppercase">Lưu Cấu Hình</button>
-                <button onclick="location.reload()" class="flex-1 bg-slate-800 p-4 rounded-2xl font-bold text-xs text-slate-400 uppercase">Thoát</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        const AD_KEY = "muopnedz";
+        // --- HỆ THỐNG MẬT KHẨU ĐỒNG BỘ TOÀN CẦU ---
+        function getSyncPasses() {
+            const now = new Date();
+            const year = now.getFullYear().toString().slice(-2);
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate();
 
-        function rnd(l) {
-            let r = ''; let c = 'abcdefghijklmnopqrstuvwxyz0123456789';
-            for (let i = 0; i < l; i++) r += c.charAt(Math.floor(Math.random() * c.length));
-            return r;
+            // Pass thường: muopne + năm + tháng + đợt (15 đợt/tháng)
+            const normalIdx = Math.min(Math.floor((day - 1) / 2), 14) + 1;
+            const currentNormal = `muopne${year}${month}${normalIdx.toString().padStart(2, '0')}`;
+
+            // Pass VIP: vip + năm + tháng + đợt (10 đợt/tháng)
+            const vipIdx = Math.min(Math.floor((day - 1) / 3), 9) + 1;
+            const currentVip = `vip${year}${month}${vipIdx.toString().padStart(2, '0')}`;
+
+            return { normal: currentNormal, vip: currentVip };
         }
 
-        let config = {
-            passes: JSON.parse(localStorage.getItem('m_v7_p')),
-            vips: JSON.parse(localStorage.getItem('m_v7_v')), 
-            note: localStorage.getItem('m_v7_n') || "Hệ thống đã hiệu chuẩn NXQ quanh mức 180-190, tối đa 200.",
-            month: localStorage.getItem('m_v7_m') || ""
-        };
-
-        const currentM = `${new Date().getMonth() + 1}-${new Date().getFullYear()}`;
-        if (!config.passes || config.month !== currentM) {
-            config.passes = Array.from({length: 15}, () => "muopne" + rnd(4));
-            config.vips = Array.from({length: 10}, () => "vip" + rnd(5));
-            config.month = currentM;
-            save();
-        }
-
-        function save() {
-            localStorage.setItem('m_v7_p', JSON.stringify(config.passes));
-            localStorage.setItem('m_v7_v', JSON.stringify(config.vips));
-            localStorage.setItem('m_v7_n', config.note);
-            localStorage.setItem('m_v7_m', config.month);
-        }
-
-        document.getElementById('display-admin-note').innerText = config.note;
-
-        function getP() { return config.passes[Math.min(Math.floor((new Date().getDate() - 1) / 2), 14)]; }
-        function getV() { return config.vips[Math.min(Math.floor((new Date().getDate() - 1) / 3), 9)]; }
+        const DAILY_PASS = getSyncPasses();
 
         function checkAccess() {
-            const v = document.getElementById('access-pass').value.trim().toLowerCase();
-            if (v === getP().toLowerCase()) {
+            const input = document.getElementById('access-pass').value.trim().toLowerCase();
+            if (input === DAILY_PASS.normal) {
                 document.getElementById('access-screen').style.display = 'none';
                 document.getElementById('main-screen').classList.remove('hidden');
-            } else alert("Mã truy cập không đúng!");
+            } else {
+                alert("Mã truy cập hôm nay không đúng! Vui lòng kiểm tra lại.");
+            }
         }
 
         let isVip = false;
-        let st = { nặng: false, rung: false, lố: false, lag: false };
+        let st = { nặng: false, lố: false };
 
         function toggleState(s) {
-            if (s === 'nặng') { st.nặng = !st.nặng; if(st.nặng) st.rung = false; }
-            else if (s === 'rung') { st.rung = !st.rung; if(st.rung) st.nặng = false; }
-            else st[s] = !st[s];
-            ['nặng','rung','lố','lag'].forEach(k => {
-                document.getElementById('st-'+k).className = st[k] ? 'state-btn p-3 rounded-xl text-center text-[10px] font-bold active' : 'state-btn p-3 rounded-xl text-center text-[10px] font-bold';
-            });
+            st[s] = !st[s];
+            document.getElementById('st-'+s).classList.toggle('active');
         }
 
         function handleVipToggle() {
             if (!isVip) {
-                let p = prompt("NHẬP MÃ VIP HIỆN TẠI:");
-                if (p && p.toLowerCase() === getV().toLowerCase()) {
+                let p = prompt("NHẬP MÃ VIP (Đổi mỗi 3 ngày):");
+                if (p && p.toLowerCase() === DAILY_PASS.vip) {
                     isVip = true;
-                    document.getElementById('btn-vip').classList.add('bg-green-600', 'text-white', 'border-green-400');
-                    document.getElementById('btn-vip').innerText = "VIP: SIÊU CHUẨN";
-                } else if(p) alert("Sai mã VIP!");
-            } else {
-                isVip = false;
-                document.getElementById('btn-vip').className = "flex-1 bg-slate-800 text-slate-500 p-4 rounded-2xl text-[10px] font-bold uppercase border border-slate-700";
-                document.getElementById('btn-vip').innerText = "VIP MODE";
+                    document.getElementById('btn-vip').className = "flex-1 bg-green-600 text-white p-4 rounded-2xl text-[10px] font-bold uppercase border border-green-400";
+                    document.getElementById('btn-vip').innerText = "VIP: ON";
+                    alert("Kích hoạt chế độ VIP thành công!");
+                } else if(p) alert("Mã VIP không chính xác!");
             }
         }
 
-        // ALGORITHM LOCK 180-200
+        // --- THUẬT TOÁN NXQ 190 (RANGE 188 - 200) ---
         function calculateSens() {
             const name = document.getElementById('device-name').value;
             if (!name) return alert("Vui lòng nhập tên thiết bị!");
@@ -185,44 +129,38 @@
             document.getElementById('result').classList.remove('hidden');
             document.getElementById('res-device').innerText = name;
             
-            let drift = () => (Math.random() * 2 - 1); 
-            let base = 185; 
-
-            if (isVip) base += 5; 
-            if (st.nặng) base += 4;
-            if (st.rung) base -= 2;
-            if (st.lố) base -= 8;
+            // Mốc mặc định là 190
+            let nxqBase = 190;
             
-            let n = name.toLowerCase();
-            if (n.includes("iphone") || n.includes("ipad")) base -= 4;
-            else if (n.includes("samsung") || n.includes("xiaomi")) base += 3;
+            // Độ biến thiên ngẫu nhiên: -2, -1, 0, 1, 2, 3, 4 (Tạo ra 188, 189, 191, 194...)
+            let randomDrift = Math.floor(Math.random() * 7) - 2; 
+            nxqBase += randomDrift;
 
-            // LOCK NXQ TRONG KHOẢNG [180, 200]
-            let gen = Math.round(Math.min(200, Math.max(180, base + drift())));
+            // Bù trừ theo tình trạng máy
+            if (isVip) nxqBase += 3;
+            if (st.nặng) nxqBase += 4;
+            if (st.lố) nxqBase -= 5;
+
+            // Giới hạn tuyệt đối [180 - 200]
+            let nxq = Math.round(Math.min(200, Math.max(180, nxqBase)));
             
-            let red = Math.round(Math.min(200, gen + (isVip ? 3 : 1) + drift()));
-            let x2 = Math.round(Math.min(200, red - 4 + drift()));
-            let x4 = Math.round(Math.min(200, x2 - 2 + drift()));
-            let snp = Math.round(Math.min(180, 90 + (Math.random() * 10)));
-            let fire = Math.round(Math.min(62, Math.max(45, 50 + drift())));
+            // Các chỉ số phụ
+            let red = Math.round(Math.min(200, nxq + (isVip ? 2 : 1)));
+            let x2 = Math.round(Math.min(200, red - 3));
+            let x4 = Math.round(Math.min(200, x2 - 2));
+            let fire = Math.round(48 + (Math.random() * 10));
 
-            if (st.lag) { red = Math.min(200, red + 3); x2 = Math.min(200, x2 + 2); }
-
-            document.getElementById('device-analysis').innerText = isVip ? "Chế độ: VIP Precision | NXQ: Optimized" : "Chế độ: Standard | NXQ: Balanced";
+            document.getElementById('device-analysis').innerText = isVip ? "Thuật toán: VIP Quantum | NXQ Status: 190-Base High" : "Thuật toán: Standard | NXQ Status: 190-Base Balanced";
 
             const data = [
-                {t: "Nhìn xung quanh", v: gen}, {t: "Red Dot Sight", v: red},
-                {t: "Ống ngắm 2x", v: x2}, {t: "Ống ngắm 4x", v: x4},
-                {t: "Ống ngắm Sniper", v: snp}, {t: "Nút bắn", v: fire + "%"}
+                {t: "Nhìn xung quanh", v: nxq},
+                {t: "Red Dot Sight", v: red},
+                {t: "Ống ngắm 2x", v: x2},
+                {t: "Ống ngắm 4x", v: x4},
+                {t: "Nút bắn", v: fire + "%"}
             ];
 
-            if(isVip) {
-                document.getElementById('vip-badge').classList.remove('hidden');
-                document.getElementById('result').style.borderColor = "#10b981";
-            } else {
-                document.getElementById('vip-badge').classList.add('hidden');
-                document.getElementById('result').style.borderColor = "#22d3ee";
-            }
+            if(isVip) document.getElementById('vip-badge').classList.remove('hidden');
 
             document.getElementById('sens-grid').innerHTML = data.map(i => `
                 <div class="p-4 bg-slate-800/40 rounded-2xl border border-slate-700/50">
@@ -230,52 +168,18 @@
                     <p class="text-3xl font-black ${isVip ? 'text-green-400' : 'accent-cyan'} italic">${i.v}</p>
                 </div>
             `).join('');
+            
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
-        // ADMIN FUNCTIONS
-        function showAdminLogin() { document.getElementById('access-screen').style.display = 'none'; document.getElementById('admin-screen').classList.remove('hidden'); }
-        function loginAdmin() {
-            if (document.getElementById('ad-pass-input').value === AD_KEY) {
-                document.getElementById('admin-login-fields').classList.add('hidden');
-                document.getElementById('admin-tools').classList.remove('hidden');
-                document.getElementById('admin-note-input').value = config.note;
-                
-                let vHtml = "";
-                config.vips.forEach((v, i) => {
-                    const act = i === Math.min(Math.floor((new Date().getDate() - 1) / 3), 9);
-                    vHtml += `<div class="flex items-center justify-between bg-slate-800 p-2 rounded-lg border ${act ? 'border-green-500' : 'border-transparent'}">
-                        <span class="text-[8px] text-slate-500 font-bold uppercase">VIP Đợt ${i+1}:</span>
-                        <input type="text" id="v-${i}" value="${v}" class="bg-transparent border-none text-right font-mono text-green-400 uppercase text-xs w-28">
-                    </div>`;
-                });
-                document.getElementById('admin-vip-list').innerHTML = vHtml;
-
-                let pHtml = "";
-                config.passes.forEach((p, i) => {
-                    const act = i === Math.min(Math.floor((new Date().getDate() - 1) / 2), 14);
-                    pHtml += `<div class="bg-slate-900/80 p-2 px-3 rounded-xl border ${act ? 'border-cyan-500' : 'border-slate-800'} flex justify-between items-center mb-1">
-                        <span class="text-[9px] ${act ? 'text-cyan-400' : 'text-slate-500'} font-bold">MÃ NGÀY ${i*2+1}:</span>
-                        <input type="text" id="p-${i}" value="${p}" class="bg-transparent border-none text-right text-sm font-mono text-white w-32 uppercase">
-                    </div>`;
-                });
-                document.getElementById('admin-pass-list').innerHTML = pHtml;
-            } else alert("Mật khẩu Admin sai!");
-        }
-
-        function saveAdmin() {
-            let nP = []; for(let i=0; i<15; i++) nP.push(document.getElementById('p-'+i).value.trim());
-            let nV = []; for(let i=0; i<10; i++) nV.push(document.getElementById('v-'+i).value.trim());
-            config.passes = nP; config.vips = nV; config.note = document.getElementById('admin-note-input').value;
-            save(); alert("Đã lưu cấu hình mới!"); location.reload();
-        }
-
+        // Chạy thông báo giả lập cho chuyên nghiệp
         setInterval(() => {
-            const d = ["iPhone 15", "Samsung S24", "iPad M4", "Redmi K70", "Xiaomi 14"];
-            document.getElementById('notify-device').innerText = "Vừa hiệu chuẩn: " + d[Math.floor(Math.random()*d.length)];
-            const n = document.getElementById('live-notify'); n.classList.add('active');
+            const devices = ["iPhone 15", "Samsung S24", "Redmi K70", "iPad Pro", "Xiaomi 14"];
+            document.getElementById('notify-text').innerText = "Vừa đồng bộ: " + devices[Math.floor(Math.random()*devices.length)];
+            const n = document.getElementById('live-notify'); 
+            n.classList.add('active');
             setTimeout(() => n.classList.remove('active'), 5000);
-        }, 12000);
+        }, 15000);
     </script>
 </body>
 </html>
