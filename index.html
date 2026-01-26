@@ -3,137 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MƯỚP NÈ - VIP GLITCH ENGINE</title>
+    <title>MƯỚP NÈ - QUANTUM ANALYSIS SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap');
         body { background: #020617; color: #f1f5f9; font-family: 'Lexend', sans-serif; overflow-x: hidden; }
-        .pro-card { background: #0f172a; border: 1px solid #1e293b; box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8); transition: 0.3s; }
+        .pro-card { background: #0f172a; border: 1px solid #1e293b; box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8); transition: 0.4s; }
         .accent-cyan { color: #22d3ee; }
-        .btn-main { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; font-weight: 800; transition: 0.3s; border: none; }
+        .btn-main { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; font-weight: 800; transition: 0.3s; border: none; cursor: pointer; }
         .btn-main:hover { box-shadow: 0 0 30px rgba(6, 182, 212, 0.6); transform: translateY(-2px); }
-        .state-btn { border: 1px solid #334155; transition: 0.2s; cursor: pointer; background: #1e293b; color: #94a3b8; }
+        .state-btn { border: 1px solid #334155; transition: 0.2s; cursor: pointer; background: #1e293b; color: #94a3b8; text-align: center; }
         .state-btn.active { background: #0ea5e9; border-color: #38bdf8; color: #fff; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); }
         input, textarea { background: #020617 !important; border: 1px solid #334155 !important; color: #fff !important; outline: none; }
 
-        /* HIỆU ỨNG GLITCH CHO VIP */
+        /* VIP GLITCH EFFECT */
         @keyframes vip-glitch-border {
             0% { border-color: #10b981; box-shadow: 2px 0 #ef4444, -2px 0 #06b6d4; }
-            25% { border-color: #06b6d4; box-shadow: -1px 0 #10b981, 1px 0 #ef4444; }
-            50% { border-color: #ef4444; box-shadow: 2px 0 #06b6d4, -2px 0 #10b981; }
-            75% { border-color: #10b981; box-shadow: -2px 0 #ef4444, 2px 0 #06b6d4; }
+            50% { border-color: #ef4444; box-shadow: -2px 0 #10b981, 2px 0 #ef4444; }
             100% { border-color: #10b981; box-shadow: 1px 0 #10b981, -1px 0 #ef4444; }
         }
-        .vip-active-border {
-            animation: vip-glitch-border 0.2s infinite;
-            border-width: 2px !important;
-        }
+        .vip-active-border { animation: vip-glitch-border 0.25s infinite; border-width: 2px !important; }
         
-        @keyframes shake {
-            0% { transform: translate(0,0); }
-            25% { transform: translate(1px, 1px); }
-            50% { transform: translate(-1px, -1px); }
-            75% { transform: translate(1px, -1px); }
-            100% { transform: translate(0,0); }
-        }
-        .vip-shake { animation: shake 0.15s infinite; }
+        /* SCANNING ANIMATION */
+        .scan-line { width: 100%; height: 2px; background: #22d3ee; position: absolute; top: 0; left: 0; animation: scan 2s linear infinite; opacity: 0.5; }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div id="access-screen" class="pro-card p-10 rounded-[2.5rem] w-full max-w-sm text-center border-t-4 border-cyan-500">
+    <div id="access-screen" class="pro-card p-10 rounded-[2.5rem] w-full max-w-sm text-center border-t-4 border-cyan-500 relative overflow-hidden">
         <h1 class="text-3xl font-black mb-1 italic uppercase tracking-tight">MƯỚP <span class="accent-cyan">NÈ</span></h1>
-        <p class="text-slate-500 text-[9px] mb-8 uppercase tracking-[0.4em]">Engine v9.5 Glitch Sync</p>
+        <p class="text-slate-500 text-[9px] mb-8 uppercase tracking-[0.4em]">Engine v11.0 Quantum</p>
         <div class="space-y-4">
-            <input type="text" id="access-pass" class="w-full p-4 rounded-2xl text-center font-mono uppercase tracking-widest border-slate-700" placeholder="MÃ TRUY CẬP">
-            <button onclick="checkAccess()" class="w-full btn-main py-4 rounded-2xl text-xs uppercase italic tracking-widest">KÍCH HOẠT</button>
+            <input type="text" id="access-pass" class="w-full p-4 rounded-2xl text-center font-mono uppercase tracking-widest border-slate-700" placeholder="NHẬP MÃ TRUY CẬP">
+            <button onclick="checkAccess()" class="w-full btn-main py-4 rounded-2xl text-xs uppercase italic tracking-widest">KÍCH HOẠT HỆ THỐNG</button>
         </div>
         <p onclick="showAdminLogin()" class="mt-8 text-[9px] text-slate-800 uppercase font-bold tracking-widest cursor-default select-none">Mã đổi tự động theo lịch</p>
     </div>
 
-    <div id="main-screen" class="hidden w-full max-w-xl animate-in fade-in duration-700">
-        <div id="vip-container" class="transition-all duration-300">
-            <div class="pro-card p-5 rounded-2xl mb-4 border-dashed border-cyan-500/40 bg-cyan-900/10">
-                <p id="display-admin-note" class="text-xs text-slate-300 italic text-center font-medium"></p>
-            </div>
+    <div id="main-screen" class="hidden w-full max-w-2xl animate-in fade-in duration-700">
+        <div class="pro-card p-4 rounded-2xl mb-4 bg-cyan-900/10 border-cyan-500/20">
+            <p id="display-admin-note" class="text-[11px] text-slate-300 italic text-center font-medium uppercase tracking-tight"></p>
+        </div>
 
-            <div class="pro-card p-6 rounded-[2rem] mb-4" id="input-card">
-                <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="pro-card p-6 rounded-[2rem]" id="input-card">
+                <div class="space-y-5">
                     <div>
-                        <label class="text-[10px] text-slate-500 uppercase font-bold ml-1 mb-2 block">Thiết bị</label>
-                        <input type="text" id="device-name" class="w-full p-4 rounded-2xl font-bold uppercase text-sm" placeholder="VD: IPHONE / ANDROID">
+                        <label class="text-[9px] text-slate-500 uppercase font-bold mb-2 block tracking-widest">Tên thiết bị</label>
+                        <input type="text" id="device-name" class="w-full p-4 rounded-2xl font-bold uppercase text-xs" placeholder="VD: IPHONE 15 PRO MAX">
                     </div>
                     <div>
-                        <label class="text-[10px] text-slate-500 uppercase font-bold ml-1 mb-2 block">Tình trạng máy</label>
+                        <label class="text-[9px] text-slate-500 uppercase font-bold mb-2 block tracking-widest">Tùy chỉnh lỗi</label>
                         <div class="grid grid-cols-2 gap-2">
-                            <div id="st-nặng" onclick="toggleState('nặng')" class="state-btn p-3 rounded-xl text-center text-[10px] font-bold">NẶNG TÂM</div>
-                            <div id="st-lố" onclick="toggleState('lố')" class="state-btn p-3 rounded-xl text-center text-[10px] font-bold">LỐ ĐẦU</div>
+                            <div id="st-nặng" onclick="toggleState('nặng')" class="state-btn p-3 rounded-xl text-[10px] font-bold">NẶNG TÂM</div>
+                            <div id="st-lố" onclick="toggleState('lố')" class="state-btn p-3 rounded-xl text-[10px] font-bold">LỐ ĐẦU</div>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="calculateSens()" class="flex-[2] btn-main p-4 rounded-2xl text-xs uppercase italic">HIỆU CHUẨN</button>
-                        <button id="btn-vip" onclick="handleVipToggle()" class="flex-1 bg-slate-800 text-slate-500 p-4 rounded-2xl text-[10px] font-bold uppercase border border-slate-700">VIP MODE</button>
+                        <button onclick="calculateSens()" class="flex-[2] btn-main p-4 rounded-2xl text-[10px] uppercase italic">HIỆU CHUẨN</button>
+                        <button id="btn-vip" onclick="handleVipToggle()" class="flex-1 bg-slate-800 text-slate-400 p-4 rounded-2xl text-[9px] font-bold uppercase border border-slate-700">VIP</button>
                     </div>
                 </div>
             </div>
 
-            <div id="result" class="hidden pro-card p-8 rounded-[2.5rem] border-t-2 border-cyan-500">
-                <div class="text-center mb-6">
-                    <span id="vip-badge" class="hidden text-[9px] bg-green-500 text-black px-4 py-1 rounded-full font-bold mb-3 inline-block uppercase italic">Vip Active</span>
-                    <h3 class="text-3xl font-black accent-cyan uppercase tracking-tighter" id="res-device">---</h3>
+            <div class="pro-card p-6 rounded-[2rem] relative overflow-hidden flex flex-col justify-center" id="analysis-card">
+                <div id="scan-ui" class="scan-line hidden"></div>
+                <div class="text-center" id="analysis-content">
+                    <p class="text-[10px] text-slate-500 uppercase font-bold mb-4 tracking-widest">Phân tích chuyên sâu</p>
+                    <div class="space-y-4 text-left">
+                        <div class="flex justify-between border-b border-slate-800 pb-2">
+                            <span class="text-[10px] text-slate-400">CPU Core:</span>
+                            <span id="cpu-val" class="text-[10px] text-cyan-400 font-bold">--</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-800 pb-2">
+                            <span class="text-[10px] text-slate-400">Màn hình:</span>
+                            <span id="screen-val" class="text-[10px] text-cyan-400 font-bold">--</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-800 pb-2">
+                            <span class="text-[10px] text-slate-400">Độ trễ (ms):</span>
+                            <span id="delay-val" class="text-[10px] text-red-400 font-bold">--</span>
+                        </div>
+                        <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800">
+                            <p class="text-[9px] text-slate-500 mb-1 uppercase italic">Lời khuyên AI:</p>
+                            <p id="ai-advice" class="text-[10px] text-slate-200 leading-relaxed italic">Vui lòng bấm Hiệu chuẩn để AI phân tích cấu hình...</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4" id="sens-grid"></div>
             </div>
+        </div>
+
+        <div id="result" class="hidden pro-card p-8 rounded-[2.5rem] border-t-2 border-cyan-500 shadow-2xl mb-10">
+            <div class="text-center mb-6">
+                <span id="vip-badge" class="hidden text-[9px] bg-green-500 text-black px-4 py-1 rounded-full font-bold mb-3 inline-block uppercase italic">Vip Quantum Locked</span>
+                <h3 class="text-3xl font-black accent-cyan uppercase tracking-tighter" id="res-device">---</h3>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="sens-grid"></div>
         </div>
     </div>
 
-    <div id="admin-screen" class="hidden pro-card p-8 rounded-[2.5rem] w-full max-w-4xl border-t-4 border-red-600">
-        <h2 class="text-xl font-black mb-6 text-red-500 uppercase text-center italic">Admin Control</h2>
+    <div id="admin-screen" class="hidden pro-card p-8 rounded-[2.5rem] w-full max-w-5xl border-t-4 border-red-600">
+        <h2 class="text-xl font-black mb-6 text-red-500 uppercase text-center italic tracking-widest">Admin Control Center</h2>
         <div id="admin-login-fields" class="max-w-sm mx-auto space-y-4">
             <input type="password" id="ad-pass-input" class="w-full p-4 rounded-2xl text-center" placeholder="PASS ADMIN">
-            <button onclick="loginAdmin()" class="w-full bg-red-600 p-4 rounded-2xl font-bold text-white uppercase text-xs">Vào Quản Lý</button>
+            <button onclick="loginAdmin()" class="w-full bg-red-600 p-4 rounded-2xl font-bold text-white uppercase text-xs">XÁC MINH AD</button>
         </div>
         <div id="admin-tools" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
-                    <label class="text-cyan-500 font-bold uppercase text-[9px] block mb-2">Thông báo cho User:</label>
-                    <textarea id="admin-note-input" rows="3" class="w-full p-3 rounded-xl text-xs"></textarea>
-                    <button onclick="saveNote()" class="w-full mt-3 bg-cyan-600 p-2 rounded-lg text-[10px] font-bold uppercase">Lưu thay đổi</button>
+                    <label class="text-cyan-500 font-bold uppercase text-[9px] block mb-2">Lời nhắn User:</label>
+                    <textarea id="admin-note-input" rows="4" class="w-full p-3 rounded-xl text-xs mb-3"></textarea>
+                    <button onclick="saveNote()" class="w-full bg-cyan-600 p-2 rounded-lg text-[10px] font-bold uppercase">Update Note</button>
                 </div>
-                <div class="max-h-[300px] overflow-y-auto pr-2">
-                    <p class="text-red-400 font-bold uppercase text-[9px] mb-3">Tra mã tháng này:</p>
-                    <div id="pass-list-preview" class="space-y-1"></div>
+                <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+                    <p class="text-red-400 font-bold uppercase text-[9px] mb-3 text-center">Pass Thường (Tháng lẻ: D-W-P-Y-M)</p>
+                    <div id="pass-normal-preview" class="space-y-1 max-h-[300px] overflow-y-auto pr-2"></div>
+                </div>
+                <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+                    <p class="text-green-400 font-bold uppercase text-[9px] mb-3 text-center">Pass VIP (Cấu trúc tương tự)</p>
+                    <div id="pass-vip-preview" class="space-y-1 max-h-[300px] overflow-y-auto pr-2"></div>
                 </div>
             </div>
-            <button onclick="location.reload()" class="w-full bg-slate-800 p-4 rounded-2xl font-bold text-xs text-slate-400 uppercase">Thoát</button>
+            <button onclick="location.reload()" class="w-full bg-slate-800 p-4 rounded-2xl font-bold text-[10px] text-slate-400 uppercase">Thoát</button>
         </div>
     </div>
 
     <script>
         const AD_KEY = "muopnedz";
 
-        function getSyncData() {
+        // --- HỆ THỐNG MẬT KHẨU ĐẢO CHIỀU ---
+        function generateComplexPass(prefix, idx) {
             const now = new Date();
-            const yy = now.getFullYear().toString().slice(-2);
+            const dd = now.getDate().toString().padStart(2, '0');
             const mm = (now.getMonth() + 1).toString().padStart(2, '0');
-            const day = now.getDate();
-            const nIdx = Math.min(Math.floor((day - 1) / 2), 14) + 1;
-            const vIdx = Math.min(Math.floor((day - 1) / 3), 9) + 1;
-            return {
-                normal: `muopne${yy}${mm}${nIdx.toString().padStart(2, '0')}`,
-                vip: `vip${yy}${mm}${vIdx.toString().padStart(2, '0')}`,
-                allN: Array.from({length: 15}, (_, i) => `muopne${yy}${mm}${(i+1).toString().padStart(2, '0')}`)
-            };
+            const yy = now.getFullYear().toString().slice(-2);
+            const wk = Math.ceil(now.getDate() / 7).toString();
+            const mNum = now.getMonth() + 1;
+            const iStr = idx.toString().padStart(2, '0');
+
+            if (mNum % 2 !== 0) {
+                // Tháng Lẻ: muopne + ngày + tuần + đợt + năm + tháng
+                return `${prefix}${dd}${wk}${iStr}${yy}${mm}`;
+            } else {
+                // Tháng Chẵn: muopne + tháng + năm + đợt + tuần + ngày
+                return `${prefix}${mm}${yy}${iStr}${wk}${dd}`;
+            }
         }
 
-        const SYNC = getSyncData();
+        const SYNC = {
+            currentN: generateComplexPass('muopne', Math.min(Math.floor((new Date().getDate() - 1) / 2), 14) + 1),
+            currentV: generateComplexPass('vip', Math.min(Math.floor((new Date().getDate() - 1) / 3), 9) + 1),
+            allN: Array.from({length: 15}, (_, i) => generateComplexPass('muopne', i + 1)),
+            allV: Array.from({length: 10}, (_, i) => generateComplexPass('vip', i + 1))
+        };
 
         function checkAccess() {
             const val = document.getElementById('access-pass').value.trim().toLowerCase();
-            if (val === SYNC.normal) {
+            if (val === SYNC.currentN) {
                 document.getElementById('access-screen').style.display = 'none';
                 document.getElementById('main-screen').classList.remove('hidden');
-            } else alert("Sai mã truy cập!");
+            } else alert("Mã không đúng cho khu vực của bạn!");
         }
 
         function showAdminLogin() {
@@ -145,15 +174,17 @@
             if (document.getElementById('ad-pass-input').value === AD_KEY) {
                 document.getElementById('admin-login-fields').classList.add('hidden');
                 document.getElementById('admin-tools').classList.remove('hidden');
-                document.getElementById('admin-note-input').value = localStorage.getItem('m_note') || "Hệ thống NXQ 190 đã sẵn sàng.";
-                let h = "";
-                SYNC.allN.forEach((p, i) => {
-                    h += `<div class="p-2 bg-slate-800 rounded text-[9px] flex justify-between ${p === SYNC.normal ? 'border border-cyan-500' : ''}">
-                        <span>Đợt ${i+1}:</span> <span class="font-mono">${p}</span>
-                    </div>`;
-                });
-                document.getElementById('pass-list-preview').innerHTML = h;
-            } else alert("Mật khẩu sai!");
+                document.getElementById('admin-note-input').value = localStorage.getItem('m_note') || "CHÚC ANH EM KÉO TÂM THÀNH CÔNG!";
+                
+                document.getElementById('pass-normal-preview').innerHTML = SYNC.allN.map((p, i) => `
+                    <div class="p-2 bg-slate-800 rounded text-[9px] flex justify-between ${p === SYNC.currentN ? 'border border-cyan-500' : ''}">
+                        <span>Đợt ${i+1}:</span> <span class="font-mono text-white">${p}</span>
+                    </div>`).join('');
+                document.getElementById('pass-vip-preview').innerHTML = SYNC.allV.map((p, i) => `
+                    <div class="p-2 bg-slate-800 rounded text-[9px] flex justify-between ${p === SYNC.currentV ? 'border border-green-500' : ''}">
+                        <span>VIP ${i+1}:</span> <span class="font-mono text-white">${p}</span>
+                    </div>`).join('');
+            } else alert("Mật khẩu AD sai!");
         }
 
         function saveNote() {
@@ -162,6 +193,7 @@
             alert("Đã lưu!");
         }
 
+        // --- XỬ LÝ CHUYÊN SÂU ---
         let isVip = false;
         let st = { nặng: false, lố: false };
 
@@ -172,57 +204,79 @@
 
         function handleVipToggle() {
             if (!isVip) {
-                let p = prompt("NHẬP MÃ VIP:");
-                if (p && p.toLowerCase() === SYNC.vip) {
+                let p = prompt("NHẬP MÃ VIP (ĐỐI CHIẾU SERVER):");
+                if (p && p.toLowerCase() === SYNC.currentV) {
                     isVip = true;
-                    // Kích hoạt hiệu ứng Glitch
                     document.getElementById('input-card').classList.add('vip-active-border');
-                    document.getElementById('btn-vip').className = "flex-1 bg-green-600 text-white p-4 rounded-2xl text-[10px] font-bold uppercase border-none";
-                    document.getElementById('btn-vip').innerText = "VIP: ON";
-                    document.getElementById('btn-vip').classList.add('vip-shake');
-                } else if(p) alert("Sai mã VIP!");
+                    document.getElementById('analysis-card').classList.add('vip-active-border');
+                    document.getElementById('btn-vip').className = "flex-1 bg-green-600 text-white p-4 rounded-2xl text-[9px] font-bold uppercase border-none";
+                    document.getElementById('btn-vip').innerText = "VIP ON";
+                } else if(p) alert("Mã VIP sai!");
             }
         }
 
         function calculateSens() {
             const name = document.getElementById('device-name').value;
-            if (!name) return alert("Vui lòng nhập tên máy!");
-            
-            const resDiv = document.getElementById('result');
-            resDiv.classList.remove('hidden');
-            document.getElementById('res-device').innerText = name;
-            
-            if(isVip) {
-                resDiv.classList.add('vip-active-border');
-                document.getElementById('vip-badge').classList.remove('hidden');
-            }
+            if (!name) return alert("Nhập tên thiết bị!");
 
-            // Thuật toán NXQ 190 (188 - 200)
-            let nxq = 190 + (Math.floor(Math.random() * 7) - 2); 
-            if (isVip) nxq += 4;
-            if (st.nặng) nxq += 5;
-            if (st.lố) nxq -= 6;
+            // Animation Scanning
+            document.getElementById('scan-ui').classList.remove('hidden');
+            document.getElementById('ai-advice').innerText = "Đang quét phần cứng...";
             
-            nxq = Math.round(Math.min(200, Math.max(180, nxq)));
-            let red = Math.round(Math.min(200, nxq + 2));
-            let x2 = Math.round(Math.min(200, red - 3));
-            let fire = Math.round(50 + (Math.random() * 8));
+            setTimeout(() => {
+                document.getElementById('scan-ui').classList.add('hidden');
+                document.getElementById('result').classList.remove('hidden');
+                document.getElementById('res-device').innerText = name;
 
-            const data = [
-                {t: "Nhìn xung quanh", v: nxq}, {t: "Red Dot Sight", v: red},
-                {t: "Ống ngắm 2x", v: x2}, {t: "Nút bắn", v: fire + "%"}
-            ];
+                // Detect Hardware
+                const cores = navigator.hardwareConcurrency || "N/A";
+                const screen = `${window.screen.width}x${window.screen.height}`;
+                const delay = Math.floor(Math.random() * 10) + 5;
 
-            document.getElementById('sens-grid').innerHTML = data.map(i => `
-                <div class="p-4 bg-slate-800/60 rounded-2xl border border-slate-700/50 text-center">
-                    <p class="text-[8px] text-slate-500 uppercase font-black mb-1">${i.t}</p>
-                    <p class="text-3xl font-black ${isVip ? 'text-green-400' : 'accent-cyan'} italic">${i.v}</p>
-                </div>
-            `).join('');
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                document.getElementById('cpu-val').innerText = cores + " Threads";
+                document.getElementById('screen-val').innerText = screen;
+                document.getElementById('delay-val').innerText = delay + "ms";
+
+                const advices = [
+                    "Cấu hình tốt, ưu tiên kéo tâm ở tốc độ cao.",
+                    "Phát hiện độ trễ cảm ứng, đã tăng bù trừ NXQ.",
+                    "Màn hình tỷ lệ chuẩn, tối ưu nút bắn 54%.",
+                    "Cần giảm đồ họa để đạt độ nhạy NXQ 190 chuẩn nhất."
+                ];
+                document.getElementById('ai-advice').innerText = advices[Math.floor(Math.random()*advices.length)];
+
+                // Thuật toán NXQ 190 (Biến thiên 188 - 200)
+                let nxq = 190 + (Math.floor(Math.random() * 7) - 2); 
+                if (isVip) nxq += 5;
+                if (st.nặng) nxq += 5;
+                if (st.lố) nxq -= 6;
+                
+                nxq = Math.round(Math.min(200, Math.max(180, nxq)));
+                let red = Math.round(Math.min(200, nxq + 2));
+                let x2 = Math.round(Math.min(200, red - 4));
+                let fire = Math.round(48 + (Math.random() * 10));
+
+                const data = [
+                    {t: "Nhìn xung quanh", v: nxq}, {t: "Red Dot", v: red},
+                    {t: "Ống ngắm 2x", v: x2}, {t: "Nút bắn", v: fire + "%"}
+                ];
+
+                if(isVip) {
+                    document.getElementById('vip-badge').classList.remove('hidden');
+                    document.getElementById('result').classList.add('vip-active-border');
+                }
+
+                document.getElementById('sens-grid').innerHTML = data.map(i => `
+                    <div class="p-4 bg-slate-800/60 rounded-2xl border border-slate-700/50 text-center">
+                        <p class="text-[8px] text-slate-500 uppercase font-black mb-1">${i.t}</p>
+                        <p class="text-3xl font-black ${isVip ? 'text-green-400' : 'accent-cyan'} italic tracking-tighter">${i.v}</p>
+                    </div>`).join('');
+                
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }, 1500);
         }
 
-        document.getElementById('display-admin-note').innerText = localStorage.getItem('m_note') || "Hệ thống NXQ 190 đã sẵn sàng.";
+        document.getElementById('display-admin-note').innerText = localStorage.getItem('m_note') || "CHÚC ANH EM KÉO TÂM THÀNH CÔNG!";
     </script>
 </body>
 </html>
