@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap');
-        body { background: #020617; color: #f1f5f9; font-family: 'Lexend', sans-serif; overflow-x: hidden; }
+        body { background: #020617; color: #f1f5f9; font-family: 'Lexend', sans-serif; overflow-x: hidden; user-select: none; -webkit-user-select: none; }
         .pro-card { background: #0f172a; border: 1px solid #1e293b; box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8); transition: 0.4s; }
         .accent-cyan { color: #22d3ee; }
         .btn-main { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; font-weight: 800; transition: 0.3s; border: none; cursor: pointer; }
@@ -15,8 +15,7 @@
         .state-btn { border: 1px solid #334155; transition: 0.2s; cursor: pointer; background: #1e293b; color: #94a3b8; text-align: center; }
         .state-btn.active { background: #0ea5e9; border-color: #38bdf8; color: #fff; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); }
         input, textarea { background: #020617 !important; border: 1px solid #334155 !important; color: #fff !important; outline: none; }
-
-        /* VIP GLITCH EFFECT */
+        
         @keyframes vip-glitch-border {
             0% { border-color: #10b981; box-shadow: 2px 0 #ef4444, -2px 0 #06b6d4; }
             50% { border-color: #ef4444; box-shadow: -2px 0 #10b981, 2px 0 #ef4444; }
@@ -27,7 +26,7 @@
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4" oncontextmenu="return false;">
 
     <div id="access-screen" class="pro-card p-10 rounded-[2.5rem] w-full max-w-sm text-center border-t-4 border-cyan-500 relative overflow-hidden">
         <h1 class="text-4xl font-black mb-1 italic uppercase tracking-tighter">MƯỚP NÈ</h1>
@@ -37,10 +36,10 @@
             <input type="text" id="access-pass" class="w-full p-4 rounded-2xl text-center font-mono uppercase tracking-widest border-slate-700" placeholder="NHẬP MÃ TRUY CẬP">
             <button onclick="checkAccess()" class="w-full btn-main py-4 rounded-2xl text-xs uppercase italic tracking-widest">KÍCH HOẠT HỆ THỐNG</button>
         </div>
-        <p onclick="showAdminLogin()" class="mt-8 text-[9px] text-slate-800 uppercase font-bold tracking-widest cursor-default select-none">Mã đổi tự động theo lịch</p>
+        <p onclick="showAdminLogin()" class="mt-8 text-[9px] text-slate-800 uppercase font-bold tracking-widest cursor-default select-none">MÃ ĐỔI TỰ ĐỘNG THEO LỊCH</p>
     </div>
 
-    <div id="main-screen" class="hidden w-full max-w-4xl animate-in fade-in duration-700">
+    <div id="main-screen" class="hidden w-full max-w-5xl animate-in fade-in duration-700">
         <div class="pro-card p-4 rounded-2xl mb-4 bg-cyan-900/10 border-cyan-500/20">
             <p id="display-admin-note" class="text-[11px] text-slate-300 italic text-center font-medium uppercase tracking-tight"></p>
         </div>
@@ -84,8 +83,8 @@
                         </div>
                     </div>
                     <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 h-full">
-                        <p class="text-[9px] text-cyan-500 mb-2 uppercase font-black italic">KHUYẾN NGHỊ HỆ THỐNG QUANTUM:</p>
-                        <p id="ai-advice" class="text-[11px] text-slate-300 leading-relaxed italic uppercase">HỆ THỐNG ĐANG CHỜ LỆNH HIỆU CHUẨN ĐỂ PHÂN TÍCH CẤU TRÚC CẢM ỨNG...</p>
+                        <p class="text-[9px] text-cyan-500 mb-2 uppercase font-black italic">HỆ THỐNG QUANTUM KHUYẾN NGHỊ:</p>
+                        <p id="sys-advice" class="text-[11px] text-slate-300 leading-relaxed italic uppercase">ĐANG CHỜ HIỆU CHUẨN ĐỂ ĐO ĐẠC CẢM ỨNG TRÊN OB52...</p>
                     </div>
                 </div>
             </div>
@@ -101,10 +100,10 @@
     </div>
 
     <div id="admin-screen" class="hidden pro-card p-8 rounded-[2.5rem] w-full max-w-5xl border-t-4 border-red-600">
-        <h2 class="text-xl font-black mb-6 text-red-500 uppercase text-center italic tracking-widest">QUẢN TRỊ VIÊN</h2>
+        <h2 class="text-xl font-black mb-6 text-red-500 uppercase text-center italic tracking-widest">BẢNG ĐIỀU KHIỂN</h2>
         <div id="admin-login-fields" class="max-w-sm mx-auto space-y-4">
             <input type="password" id="ad-pass-input" class="w-full p-4 rounded-2xl text-center" placeholder="MẬT KHẨU ADMIN">
-            <button onclick="loginAdmin()" class="w-full bg-red-600 p-4 rounded-2xl font-bold text-white uppercase text-xs">XÁC MINH</button>
+            <button onclick="loginAdmin()" class="w-full bg-red-600 p-4 rounded-2xl font-bold text-white uppercase text-xs">XÁC MINH QUYỀN</button>
         </div>
         <div id="admin-tools" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -114,42 +113,57 @@
                     <button onclick="saveNote()" class="w-full bg-cyan-600 p-2 rounded-lg text-[10px] font-bold uppercase">CẬP NHẬT</button>
                 </div>
                 <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
-                    <p class="text-red-400 font-bold uppercase text-[9px] mb-3 text-center">PASS THƯỜNG</p>
-                    <div id="pass-normal-preview" class="space-y-1 max-h-[300px] overflow-y-auto pr-2 uppercase font-mono text-[10px]"></div>
+                    <p class="text-red-400 font-bold uppercase text-[9px] mb-3 text-center">PASS THƯỜNG (MATH)</p>
+                    <div id="pass-normal-preview" class="space-y-1 max-h-[300px] overflow-y-auto pr-2 font-mono text-[10px] uppercase"></div>
                 </div>
                 <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
-                    <p class="text-green-400 font-bold uppercase text-[9px] mb-3 text-center">PASS VIP</p>
-                    <div id="pass-vip-preview" class="space-y-1 max-h-[300px] overflow-y-auto pr-2 uppercase font-mono text-[10px]"></div>
+                    <p class="text-green-400 font-bold uppercase text-[9px] mb-3 text-center">PASS VIP (MATH)</p>
+                    <div id="pass-vip-preview" class="space-y-1 max-h-[300px] overflow-y-auto pr-2 font-mono text-[10px] uppercase"></div>
                 </div>
             </div>
-            <button onclick="location.reload()" class="w-full bg-slate-800 p-4 rounded-2xl font-bold text-[10px] text-slate-400 uppercase">THOÁT ADMIN</button>
+            <button onclick="location.reload()" class="w-full bg-slate-800 p-4 rounded-2xl font-bold text-[10px] text-slate-400 uppercase">THOÁT</button>
         </div>
     </div>
 
     <script>
+        // --- CHỐNG XÂM NHẬP TUYỆT ĐỐI ---
+        (function() {
+            const block = () => {
+                document.body.innerHTML = '<div style="color:white;text-align:center;padding-top:100px;font-family:Lexend">HÀNH VI BỊ CHẶN BỞI SHIELD MƯỚP NÈ!</div>';
+            };
+            // Khóa tổ hợp phím
+            document.onkeydown = (e) => {
+                if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85) || (e.ctrlKey && e.keyCode == 83)) {
+                    block();
+                    return false;
+                }
+            };
+            // Infinite Debugger
+            setInterval(() => { (function(c) { (function(a) { if (a === "custom") { (function(b) {})(c); } })(c); })("debugger"); }, 50);
+        })();
+
         const AD_KEY = "muopnedz";
 
-        function generateComplexPass(prefix, idx) {
+        // --- CÔNG THỨC MẬT KHẨU TỔNG SỐ MỚI ---
+        function generateQuantumPass(prefix, idx) {
             const now = new Date();
-            const dd = now.getDate().toString().padStart(2, '0');
-            const mm = (now.getMonth() + 1).toString().padStart(2, '0');
-            const yy = now.getFullYear().toString().slice(-2);
-            const wk = Math.ceil(now.getDate() / 7).toString();
-            const mNum = now.getMonth() + 1;
-            const iStr = idx.toString().padStart(2, '0');
-
-            if (mNum % 2 !== 0) {
-                return `${prefix}${dd}${wk}${iStr}${yy}${mm}`;
-            } else {
-                return `${prefix}${mm}${yy}${iStr}${wk}${dd}`;
-            }
+            const d = now.getDate();
+            const m = now.getMonth() + 1;
+            const y = parseInt(now.getFullYear().toString().slice(-2));
+            const w = Math.ceil(d / 7);
+            
+            // Tổng các con số thời gian
+            const totalSum = d + m + y + w + idx;
+            
+            // Kết quả: muopne + tổng + -idx
+            return `${prefix}${totalSum}-${idx}`;
         }
 
         const SYNC = {
-            cN: generateComplexPass('muopne', Math.min(Math.floor((new Date().getDate() - 1) / 2), 14) + 1),
-            cV: generateComplexPass('vip', Math.min(Math.floor((new Date().getDate() - 1) / 3), 9) + 1),
-            allN: Array.from({length: 15}, (_, i) => generateComplexPass('muopne', i + 1)),
-            allV: Array.from({length: 10}, (_, i) => generateComplexPass('vip', i + 1))
+            cN: generateQuantumPass('muopne', Math.min(Math.floor((new Date().getDate() - 1) / 2), 14) + 1),
+            cV: generateQuantumPass('vip', Math.min(Math.floor((new Date().getDate() - 1) / 3), 9) + 1),
+            allN: Array.from({length: 15}, (_, i) => generateQuantumPass('muopne', i + 1)),
+            allV: Array.from({length: 10}, (_, i) => generateQuantumPass('vip', i + 1))
         };
 
         function checkAccess() {
@@ -189,11 +203,10 @@
 
         function handleVipToggle() {
             if (!isVip) {
-                let p = prompt("NHẬP MÃ VIP:");
+                let p = prompt("NHẬP MÃ VIP QUANTUM:");
                 if (p && p.toLowerCase() === SYNC.cV) {
                     isVip = true;
                     document.getElementById('input-card').classList.add('vip-active-border');
-                    document.getElementById('analysis-card').classList.add('vip-active-border');
                     document.getElementById('btn-vip').className = "flex-1 bg-green-600 text-white p-4 rounded-2xl text-[9px] font-bold uppercase border-none";
                     document.getElementById('btn-vip').innerText = "VIP ON";
                 } else if(p) alert("MÃ VIP SAI!");
@@ -202,20 +215,19 @@
 
         function calculateSens() {
             const name = document.getElementById('device-name').value;
-            if (!name) return alert("NHẬP TÊN THIẾT BỊ!");
+            if (!name) return alert("NHẬP TÊN MÁY!");
 
             document.getElementById('scan-ui').classList.remove('hidden');
-            document.getElementById('ai-advice').innerText = "ĐANG PHÂN TÍCH CẤU TRÚC PHẦN CỨNG...";
+            document.getElementById('sys-advice').innerText = "ĐANG ĐO ĐẠC TỐC ĐỘ PHẢN HỒI...";
             
             setTimeout(() => {
                 document.getElementById('scan-ui').classList.add('hidden');
                 document.getElementById('result').classList.remove('hidden');
-                document.getElementById('res-device').innerText = name;
-
+                document.getElementById('res-device').innerText = name.toUpperCase();
                 document.getElementById('cpu-val').innerText = (navigator.hardwareConcurrency || 8) + " CORES";
                 document.getElementById('screen-val').innerText = window.screen.width + "X" + window.screen.height;
                 document.getElementById('delay-val').innerText = (Math.floor(Math.random() * 8) + 4) + "MS";
-                document.getElementById('ai-advice').innerText = "PHÁT HIỆN CẤU HÌNH PHÙ HỢP VỚI MỐC NXQ 190. ĐÃ TỰ ĐỘNG CÂN BẰNG ĐỘ NHẠY CHO PHIÊN BẢN OB52 MỚI NHẤT.";
+                document.getElementById('sys-advice').innerText = "TỐI ƯU HÓA HOÀN TẤT CHO OB52. ĐỘ NHẠY ĐÃ ĐƯỢC CÂN BẰNG QUANTUM.";
 
                 let nxq = 190 + (Math.floor(Math.random() * 7) - 2); 
                 if (isVip) nxq += 4;
@@ -235,10 +247,7 @@
                     {t: "ỐNG NGẮM SNIPER", v: awm}, {t: "NÚT BẮN", v: fire + "%"}
                 ];
 
-                if(isVip) {
-                    document.getElementById('vip-badge').classList.remove('hidden');
-                    document.getElementById('result').classList.add('vip-active-border');
-                }
+                if(isVip) document.getElementById('result').classList.add('vip-active-border');
 
                 document.getElementById('sens-grid').innerHTML = data.map(i => `
                     <div class="p-6 bg-slate-800/60 rounded-[1.5rem] border border-slate-700/50 text-center uppercase">
