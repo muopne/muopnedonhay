@@ -3,251 +3,320 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MƯỚP NÈ - GHOST OB52</title>
+    <title>MƯỚP NÈ - OMNI V35.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap');
-        
         :root { --p: #1f6feb; --g: #e3b341; --bg: #010409; }
-        body { background: var(--bg); color: #f0f6fc; font-family: 'Lexend', sans-serif; user-select: none; -webkit-user-select: none; overflow: hidden; height: 100vh; }
-
-        /* Hiệu ứng Hút (Implosion) */
-        .suck-in { transform: scale(0); opacity: 0; filter: blur(20px); transition: all 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045); }
         
-        /* Hiệu ứng trượt màn hình con */
-        .sub-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg); z-index: 50; transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1); overflow-y: auto; }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        body { 
+            background: var(--bg); color: #f0f6fc; font-family: 'Lexend', sans-serif; 
+            user-select: none; -webkit-user-select: none; 
+            margin: 0; padding: 0; height: 100vh; overflow: hidden;
+        }
+
+        /* Hiệu ứng Hút Implosion */
+        .suck-in { transform: scale(0); opacity: 0; filter: blur(20px); transition: all 0.7s cubic-bezier(0.6, -0.28, 0.735, 0.045); }
+        
+        /* Cấu trúc Page */
+        .page-container { position: relative; width: 100%; height: 100%; }
+        .sub-page { 
+            position: fixed; top: 0; left: 100%; width: 100%; height: 100%; 
+            background: var(--bg); z-index: 100; 
+            transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1); 
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            padding: 2rem 1rem;
+        }
         .sub-page.active { left: 0; }
 
-        .glass { background: #0d1117; border: 1px solid #30363d; border-radius: 2.5rem; }
-        .btn-core { background: linear-gradient(135deg, #1f6feb, #0d419d); font-weight: 900; transition: 0.3s; cursor: pointer; }
-        .btn-core:active { transform: scale(0.9); }
-        .input-core { background: #010409 !important; border: 1px solid #30363d !important; color: #fff !important; outline: none; }
+        .glass { background: #0d1117; border: 1px solid #30363d; border-radius: 2rem; }
+        .btn-hub { background: #0d1117; border: 1px solid #30363d; transition: 0.3s; cursor: pointer; border-radius: 1.5rem; width: 100%; }
+        .btn-hub:active { transform: scale(0.96); background: #161b22; }
+        .btn-core { background: linear-gradient(135deg, #1f6feb, #0d419d); font-weight: 900; color: white; }
         
-        /* Nút thoát vuốt sang trái */
-        .exit-swipe { position: relative; overflow: hidden; }
-        .exit-swipe::after { content: '➔'; position: absolute; right: -20px; opacity: 0; transition: 0.3s; }
-        .exit-swipe:hover::after { right: 20px; opacity: 1; }
-
-        #lock-overlay { display: none; position: fixed; inset: 0; background: #000; z-index: 10000; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .scan-bar { position: absolute; width: 100%; height: 2px; background: var(--p); animation: scan 2s infinite; opacity: 0.2; }
         @keyframes scan { from { top: 0%; } to { top: 100%; } }
-        
+
+        .exit-swipe { 
+            border: 1px solid #ff3e3e33; color: #ff3e3e; background: #ff3e3e0a; 
+            transition: 0.3s; width: 100%; padding: 1.2rem; border-radius: 1.2rem; 
+            font-weight: 900; text-transform: uppercase; font-size: 10px; letter-spacing: 2px;
+            margin-top: 2rem; margin-bottom: 3rem;
+        }
+        .exit-swipe:active { transform: translateX(-15px); opacity: 0.5; }
+
+        /* Màn hình khóa không chặn scroll */
+        #ban-overlay { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <div id="lock-overlay">
-        <h1 class="text-6xl font-black text-red-600 italic mb-4">LOCKED</h1>
-        <div class="w-full max-w-xs px-8">
-            <input type="password" id="r-code" class="w-full p-4 rounded-2xl input-core text-center mb-4" placeholder="RECOVERY CODE">
-            <button onclick="x_rescue()" class="w-full btn-core py-4 rounded-2xl text-[10px] font-black uppercase">MỞ KHÓA HỆ THỐNG</button>
+    <div class="page-container">
+        <div id="ban-overlay">
+            <h1 class="text-6xl font-black text-red-600 italic mb-6">LOCKED</h1>
+            <div class="w-64 space-y-4">
+                <input type="password" id="r-in" class="w-full p-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-center text-white outline-none" placeholder="MÃ GIẢI CỨU">
+                <button onclick="x_rescue()" class="w-full btn-core py-4 rounded-2xl text-[10px] uppercase">RECOVERY SYSTEM</button>
+            </div>
         </div>
-    </div>
 
-    <div id="login-ui" class="min-h-screen flex items-center justify-center p-6 transition-all duration-700">
-        <div id="login-card" class="glass p-12 w-full max-w-sm text-center border-t-4 border-blue-600 shadow-2xl">
-            <div class="mb-10">
-                <h1 class="text-4xl font-black text-white uppercase tracking-tighter">MƯỚP NÈ</h1>
-                <p class="text-blue-500 text-[10px] font-black uppercase tracking-[0.3em] mt-1">HỆ THỐNG ĐỘ NHẠY OB52</p>
-            </div>
-            <div class="space-y-4">
-                <input type="text" id="p-field" class="w-full p-5 rounded-3xl input-core text-center font-mono text-xl font-bold tracking-[0.4em]" placeholder="********">
-                <button onclick="x_login()" class="w-full btn-core py-5 rounded-3xl text-[10px] font-black uppercase">XÁC MINH DANH TÍNH</button>
-                <p id="att-text" class="text-[9px] text-gray-700 font-black uppercase">HỆ THỐNG BẢO MẬT V32.0</p>
-            </div>
-            <p onclick="x_admin_open()" class="mt-12 text-[9px] text-gray-800 font-black cursor-pointer uppercase">ADMIN PANEL</p>
-        </div>
-    </div>
-
-    <div id="main-ui" class="hidden min-h-screen py-10 px-4 flex flex-col items-center opacity-0 transition-opacity duration-1000">
-        <div class="w-full max-w-4xl">
-            <div class="glass p-4 rounded-2xl mb-8 bg-blue-600/5 text-center border-blue-600/10">
-                <p id="sys-msg" class="text-[9px] text-gray-500 font-bold uppercase tracking-widest"></p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass p-8 border-l-4 border-blue-600">
-                    <div class="space-y-6">
-                        <input type="text" id="d-name" class="w-full p-4 rounded-xl input-core text-xs font-bold uppercase" placeholder="TÊN THIẾT BỊ">
-                        <button onclick="x_analyze()" class="w-full btn-core p-4 rounded-xl text-[11px] font-black uppercase">TRÍCH XUẤT ĐỘ NHẠY</button>
-                        <button id="v-btn" onclick="x_vip()" class="w-full bg-gray-900 text-gray-700 p-4 rounded-xl text-[10px] font-black border border-gray-800 uppercase">KÍCH HOẠT VIP</button>
-                    </div>
+        <div id="login-ui" class="min-h-screen flex items-center justify-center p-6">
+            <div id="login-card" class="glass p-12 w-full max-w-sm text-center border-t-4 border-blue-600 shadow-2xl">
+                <div class="mb-12">
+                    <h1 class="text-4xl font-black text-white uppercase tracking-tighter italic">MƯỚP NÈ</h1>
+                    <p class="text-blue-500 text-[10px] font-black uppercase tracking-[0.3em] mt-2">HỆ THỐNG ĐỘ NHẠY OB52</p>
                 </div>
-                <div class="glass p-8 md:col-span-2 relative overflow-hidden flex items-center justify-center min-h-[200px]">
-                    <div id="s-bar" class="scan-bar hidden"></div>
-                    <p id="l-text" class="text-sm text-gray-500 italic uppercase font-bold">READY TO SCAN...</p>
+                <div class="space-y-4">
+                    <input type="text" id="p-field" class="w-full p-5 rounded-3xl bg-black border border-zinc-800 text-center font-mono text-xl text-white font-bold tracking-[0.4em] outline-none" placeholder="********">
+                    <button onclick="x_auth()" class="w-full btn-core py-5 rounded-3xl text-[10px] font-black uppercase">XÁC MINH CORE</button>
                 </div>
+                <p onclick="go('p-admin')" class="mt-12 text-[9px] text-zinc-800 font-black cursor-pointer uppercase">ADMIN DASHBOARD</p>
             </div>
         </div>
-    </div>
 
-    <div id="result-page" class="sub-page flex flex-col items-center py-12 px-6">
-        <div class="w-full max-w-lg">
-            <div class="glass p-8 border-blue-600/30 shadow-2xl relative">
+        <div id="main-hub" class="hidden min-h-screen flex flex-col items-center py-10 px-6 opacity-0 transition-opacity duration-1000 overflow-y-auto">
+            <div class="w-full max-w-md">
                 <div class="text-center mb-10">
-                    <h2 id="out-name" class="text-[60px] font-black italic text-white uppercase tracking-tighter leading-none">--</h2>
-                    <p class="text-[9px] text-blue-500 font-black tracking-[0.4em] mt-3 uppercase italic">SENSITIVITY CONFIG OB52</p>
+                    <h1 class="text-2xl font-black text-white italic tracking-tighter uppercase">CONTROL CENTER</h1>
+                    <div class="h-1 w-10 bg-blue-600 mx-auto mt-2 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="go('p-sens')" class="btn-hub p-6 flex items-center justify-between">
+                        <span class="font-black text-xs uppercase tracking-widest text-blue-400">1. ĐỘ NHẠY DNA</span>
+                        <span>➔</span>
+                    </button>
+                    <button onclick="go('p-guide')" class="btn-hub p-6 flex items-center justify-between">
+                        <span class="font-black text-xs uppercase tracking-widest text-green-400">2. HƯỚNG DẪN KÉO</span>
+                        <span>➔</span>
+                    </button>
+                    <button onclick="go('p-dpi')" class="btn-hub p-6 flex items-center justify-between">
+                        <span class="font-black text-xs uppercase tracking-widest text-purple-400">3. DPI ANDROID</span>
+                        <span>➔</span>
+                    </button>
+                    <button onclick="go('p-macro')" class="btn-hub p-6 flex items-center justify-between">
+                        <span class="font-black text-xs uppercase tracking-widest text-yellow-500">4. MACRO IPHONE</span>
+                        <span>➔</span>
+                    </button>
+                    <button id="v-btn-hub" onclick="x_vip_ask()" class="btn-hub p-6 flex items-center justify-between border-dashed border-zinc-700">
+                        <span class="font-black text-xs uppercase tracking-widest text-zinc-500">5. KÍCH HOẠT VIP</span>
+                        <span class="text-zinc-500">★</span>
+                    </button>
                 </div>
                 
-                <div id="out-grid" class="grid grid-cols-2 gap-4">
-                    </div>
-
-                <button onclick="x_back()" class="w-full mt-12 bg-red-900/20 hover:bg-red-900/40 text-red-500 border border-red-900/50 p-5 rounded-2xl text-[10px] font-black uppercase tracking-widest exit-swipe">
-                    THOÁT & TRỞ VỀ MÀN HÌNH CHÍNH
-                </button>
+                <p id="h-msg" class="mt-10 text-[9px] text-zinc-600 font-black uppercase text-center tracking-[0.2em]"></p>
             </div>
         </div>
-    </div>
 
-    <div id="admin-ui" class="hidden min-h-screen flex items-center justify-center p-4">
-        <div class="glass p-8 w-full max-w-4xl border-red-600 border-t-4">
-            <div id="ad-login">
-                <input type="password" id="ad-field" class="w-full p-5 rounded-2xl input-core text-center mb-6" placeholder="ADMIN PASSWORD">
-                <button onclick="x_ad_auth()" class="w-full bg-red-600 p-5 rounded-2xl font-black uppercase text-[10px]">VÀO HỆ THỐNG</button>
+        <div id="p-sens" class="sub-page">
+            <div class="max-w-md mx-auto">
+                <h2 class="text-4xl font-black italic mb-8 uppercase text-center">SENS DNA</h2>
+                <div class="glass p-6 mb-6 relative overflow-hidden">
+                    <div id="s-bar" class="scan-bar hidden"></div>
+                    <input type="text" id="d-in" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-xs text-white font-bold mb-4 outline-none uppercase" placeholder="TÊN MÁY...">
+                    <button onclick="x_calc_sens()" class="w-full btn-core py-4 rounded-xl text-[10px] font-black uppercase">TRÍCH XUẤT</button>
+                </div>
+                <div id="res-sens" class="grid grid-cols-2 gap-3"></div>
+                <button onclick="back('p-sens')" class="exit-swipe">QUAY LẠI HUB</button>
             </div>
-            <div id="ad-box" class="hidden space-y-6">
-                <textarea id="ad-msg-val" rows="2" class="w-full p-4 rounded-xl input-core text-xs uppercase"></textarea>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-black/50 p-4 rounded-3xl border border-gray-800">
-                        <p class="text-[9px] text-blue-500 font-black mb-3 text-center">KEY THƯỜNG</p>
-                        <div id="list-n" class="font-mono text-[8px] text-gray-600 space-y-1 max-h-32 overflow-y-auto pr-2"></div>
+        </div>
+
+        <div id="p-guide" class="sub-page">
+            <div class="max-w-md mx-auto">
+                <h2 class="text-4xl font-black italic mb-8 uppercase text-center">KỸ THUẬT</h2>
+                <div class="space-y-4">
+                    <div class="glass p-6 border-l-4 border-blue-600">
+                        <p class="text-blue-500 font-black text-[10px] mb-2">BƯỚC 1: TÂM TRẮNG</p>
+                        <p class="text-xs text-zinc-400">Đặt tâm sát cạnh vai trái đối thủ nếu dùng súng Shotgun, hoặc ngang ngực nếu dùng súng trường.</p>
                     </div>
-                    <div class="bg-black/50 p-4 rounded-3xl border border-gray-800">
-                        <p class="text-[9px] text-yellow-500 font-black mb-3 text-center">KEY VIP</p>
-                        <div id="list-v" class="font-mono text-[8px] text-gray-600 space-y-1 max-h-32 overflow-y-auto pr-2"></div>
+                    <div class="glass p-6 border-l-4 border-green-600">
+                        <p class="text-green-500 font-black text-[10px] mb-2">BƯỚC 2: NHỊP KÉO</p>
+                        <p class="text-xs text-zinc-400">Vuốt nút bắn theo hình chữ U nằm ngang đối với địch đang chạy ngang, hoặc chữ J đối với địch đứng im.</p>
+                    </div>
+                    <div class="glass p-6 border-l-4 border-red-600">
+                        <p class="text-red-500 font-black text-[10px] mb-2">BƯỚC 3: KẾT THÚC</p>
+                        <p class="text-xs text-zinc-400">Không giữ nút bắn quá lâu. Nhấp - Nhả - Di chuyển để tâm súng không bị nở to (nở tâm).</p>
                     </div>
                 </div>
-                <button onclick="location.reload()" class="w-full bg-gray-800 p-4 rounded-xl text-[10px] font-black">QUAY LẠI</button>
+                <button onclick="back('p-guide')" class="exit-swipe">QUAY LẠI HUB</button>
+            </div>
+        </div>
+
+        <div id="p-dpi" class="sub-page">
+            <div class="max-w-md mx-auto">
+                <h2 class="text-4xl font-black italic mb-8 uppercase text-center">DPI CORE</h2>
+                <div class="glass p-6 mb-6">
+                    <input type="text" id="dpi-in" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-xs text-white font-bold mb-4 outline-none uppercase" placeholder="NHẬP HÃNG (VD: OPPO)">
+                    <button onclick="x_calc_dpi()" class="w-full btn-core py-4 rounded-xl text-[10px] font-black uppercase">TÌM KIẾM DPI</button>
+                </div>
+                <div id="res-dpi" class="hidden glass p-8 text-center border-purple-900/40">
+                    <p class="text-[10px] text-zinc-500 font-black uppercase mb-1">DPI ĐỀ XUẤT</p>
+                    <h3 id="dpi-val" class="text-6xl font-black text-purple-400">--</h3>
+                </div>
+                <button onclick="back('p-dpi')" class="exit-swipe">QUAY LẠI HUB</button>
+            </div>
+        </div>
+
+        <div id="p-macro" class="sub-page">
+            <div class="max-w-md mx-auto">
+                <h2 class="text-4xl font-black italic mb-8 uppercase text-center">MACRO IP</h2>
+                <div class="glass p-8 space-y-6">
+                    <div>
+                        <p class="text-[9px] text-zinc-500 font-black uppercase mb-1">Thích nghi cảm ứng</p>
+                        <p class="text-sm font-bold text-white uppercase">Thời gian giữ: 0.15s</p>
+                    </div>
+                    <div class="h-[1px] bg-zinc-800 w-full"></div>
+                    <div>
+                        <p class="text-[9px] text-zinc-500 font-black uppercase mb-1">Độ nhạy theo dõi</p>
+                        <p class="text-sm font-bold text-white uppercase">Mức: 90% (Max Precision)</p>
+                    </div>
+                    <div class="h-[1px] bg-zinc-800 w-full"></div>
+                    <div>
+                        <p class="text-[9px] text-zinc-500 font-black uppercase mb-1">Điều khiển con trỏ</p>
+                        <p class="text-sm font-bold text-white uppercase">Tốc độ: 1.0 (Full)</p>
+                    </div>
+                </div>
+                <button onclick="back('p-macro')" class="exit-swipe">QUAY LẠI HUB</button>
+            </div>
+        </div>
+
+        <div id="p-admin" class="sub-page">
+            <div class="max-w-md mx-auto">
+                <h2 class="text-4xl font-black italic mb-8 uppercase text-center text-red-600">ADMIN CORE</h2>
+                <div id="ad-login" class="glass p-8">
+                    <input type="password" id="ad-field" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-center text-white mb-4" placeholder="ADMIN PASS">
+                    <button onclick="x_ad_auth()" class="w-full bg-red-600 py-4 rounded-xl text-[10px] font-black text-white">XÁC MINH QUYỀN</button>
+                </div>
+                <div id="ad-box" class="hidden space-y-6">
+                    <div class="glass p-6">
+                        <p class="text-[10px] text-blue-500 font-black mb-3 uppercase">Pass thường hôm nay</p>
+                        <div id="ad-list-n" class="text-sm font-mono text-zinc-400 space-y-1"></div>
+                    </div>
+                    <div class="glass p-6">
+                        <p class="text-[10px] text-yellow-500 font-black mb-3 uppercase">Pass VIP hôm nay</p>
+                        <div id="ad-list-v" class="text-sm font-mono text-zinc-400 space-y-1"></div>
+                    </div>
+                    <button onclick="location.reload()" class="w-full bg-zinc-800 py-4 rounded-xl text-[10px] font-black">THOÁT ADMIN</button>
+                </div>
+                <button id="ad-back-btn" onclick="back('p-admin')" class="exit-swipe">TRỞ VỀ ĐĂNG NHẬP</button>
             </div>
         </div>
     </div>
 
     <script>
-        /* MÃ HÓA DỮ LIỆU CƠ BẢN */
-        const _v1 = "bXVvcG5l", _v2 = "dmlw", _v3 = "bXVvcG5lZHo=", _v4 = "bXVvcG5lZml4";
-        const _k = [atob(_v1), atob(_v2), atob(_v3), atob(_v4)];
+        /* CORE LOGIC MÃ HÓA HEX */
+        const _0x_v = ["\x6d\x75\x6f\x70\x6e\x65", "\x76\x69\x70", "\x6d\x75\x6f\x70\x6e\x65\x64\x7a", "\x6d\x75\x6f\x70\x6e\x65\x66\x69\x78"];
+        let lock_val = parseInt(localStorage.getItem('v35_lock') || 0);
+        let is_vip = false;
 
-        /* LOGIC KEY NGÀY */
-        function g_lunar() { const d = new Date().getDate(); return d > 15 ? d - 5 : d + 5; }
-        const L = g_lunar();
-        const g_k = (p, i) => `${p}${new Date().getDate() + 26 + L + i}-${i}${L}`;
-
-        const DB = {
-            cN: g_k(_k[0], Math.min(Math.floor((new Date().getDate()-1)/2),14)+1),
-            cV: g_k(_k[1], Math.min(Math.floor((new Date().getDate()-1)/3),9)+1),
-            lN: Array.from({length:15},(_,i)=>g_k(_k[0],i+1)),
-            lV: Array.from({length:10},(_,i)=>g_k(_k[1],i+1))
-        };
-
-        /* SECURITY CORE */
-        let f_count = parseInt(localStorage.getItem('ghost_lock') || 0);
-        let is_v = false;
-
-        if(f_count >= 10) { document.getElementById('lock-overlay').style.display = 'flex'; }
+        // Chống lách luật
+        if(lock_val >= 10) document.getElementById('ban-overlay').style.display = 'flex';
 
         function x_rescue() {
-            if(document.getElementById('r-code').value.trim() === _k[3]) {
-                localStorage.setItem('ghost_lock', 0);
+            if(document.getElementById('r-in').value.trim() === _0x_v[3]) {
+                localStorage.setItem('v35_lock', 0);
                 location.reload();
-            } else alert("INVALID CODE!");
+            } else alert("MÃ SAI!");
         }
 
-        /* HIỆU ỨNG HÚT (IMPLOSION) KHI VÀO WEB */
-        function x_login() {
+        /* THUẬT TOÁN SINH PASS NGÀY */
+        function get_keys() {
+            const d = new Date().getDate();
+            const m = new Date().getMonth() + 1;
+            const seed = d + m + 26;
+            return {
+                n: _0x_v[0] + (seed + 10),
+                v: _0x_v[1] + (seed + 20),
+                all_n: Array.from({length: 5}, (_, i) => _0x_v[0] + (seed + 10 + i)),
+                all_v: Array.from({length: 5}, (_, i) => _0x_v[1] + (seed + 20 + i))
+            };
+        }
+        const KEYS = get_keys();
+
+        /* AUTH & EFFECT */
+        function x_auth() {
             const val = document.getElementById('p-field').value.trim().toLowerCase();
-            if(val === DB.cN) {
-                localStorage.setItem('ghost_lock', 0);
-                const card = document.getElementById('login-card');
-                card.classList.add('suck-in'); // Bắt đầu hiệu ứng hút
-                
+            if(KEYS.all_n.includes(val)) {
+                localStorage.setItem('v35_lock', 0);
+                document.getElementById('login-card').classList.add('suck-in');
                 setTimeout(() => {
                     document.getElementById('login-ui').style.display = 'none';
-                    const main = document.getElementById('main-ui');
-                    main.classList.remove('hidden');
-                    setTimeout(() => { main.style.opacity = '1'; }, 50);
-                }, 800);
+                    const hub = document.getElementById('main-hub');
+                    hub.classList.remove('hidden');
+                    setTimeout(() => hub.style.opacity = '1', 50);
+                }, 750);
             } else {
-                f_count++;
-                localStorage.setItem('ghost_lock', f_count);
-                if(f_count >= 10) location.reload();
-                alert("SAI MẬT MÃ!");
+                lock_val++; localStorage.setItem('v35_lock', lock_val);
+                if(lock_val >= 10) location.reload();
+                alert("MẬT MÃ KHÔNG CHÍNH XÁC!");
             }
         }
 
-        /* PHÂN TÍCH & TRƯỢT MÀN HÌNH CON */
-        function x_analyze() {
-            const dev = document.getElementById('d-name').value.trim();
-            if(!dev) return alert("NHẬP TÊN MÁY!");
+        /* NAVIGATION */
+        function go(id) { document.getElementById(id).classList.add('active'); }
+        function back(id) { document.getElementById(id).classList.remove('active'); }
 
+        /* SENSITIVITY DNA (192-199) */
+        function x_calc_sens() {
+            const d = document.getElementById('d-in').value.trim();
+            if(!d) return;
             document.getElementById('s-bar').classList.remove('hidden');
-            document.getElementById('l-text').innerText = "CALIBRATING QUANTUM DNA...";
-
             setTimeout(() => {
-                let h = 0; for(let i=0; i<dev.length; i++) h = ((h << 5) - h) + dev.charCodeAt(i);
+                let h = 0; for(let i=0; i<d.length; i++) h = ((h << 5) - h) + d.charCodeAt(i);
                 h = Math.abs(h);
-                let b = (is_v ? 196 : 193) + (h % 4);
-                
+                let nxq = 192 + (h % 8);
                 const data = [
-                    {t: "NHÌN XUNG QUANH", v: Math.min(200, b)},
-                    {t: "RED DOT", v: Math.min(200, b + 2)},
-                    {t: "ỐNG NGẮM 2X", v: Math.min(200, b - (is_v ? 2 : 4))},
-                    {t: "ỐNG NGẮM 4X", v: Math.min(200, b - (is_v ? 4 : 6))},
-                    {t: "SNIPER", v: 60 + (h % 15)},
-                    {t: "NÚT BẮN", v: (is_v ? 42 : 46) + (h % 3) + "%"}
+                    {n: "NHÌN XUNG QUANH", v: nxq}, {n: "RED DOT", v: nxq + 1},
+                    {n: "ỐNG NGẮM 2X", v: nxq - (is_vip?1:3)}, {n: "ỐNG NGẮM 4X", v: nxq - (is_vip?3:5)},
+                    {n: "SNIPER", v: 60 + (h % 15)}, {n: "NÚT BẮN", v: (is_vip?42:46) + (h % 4) + "%"}
                 ];
-
                 document.getElementById('s-bar').classList.add('hidden');
-                document.getElementById('out-name').innerText = dev.toUpperCase();
-                document.getElementById('out-grid').innerHTML = data.map(i => `
-                    <div class="bg-[#1c2128] p-5 rounded-3xl border border-gray-800 text-center shadow-xl">
-                        <p class="text-[8px] text-gray-500 font-black mb-2 uppercase">${i.t}</p>
-                        <p class="text-3xl font-black italic ${is_v ? 'text-yellow-500' : 'text-blue-500'}">${i.v}</p>
+                document.getElementById('res-sens').innerHTML = data.map(i => `
+                    <div class="glass p-5 text-center border-zinc-800">
+                        <p class="text-[7px] text-zinc-500 font-black mb-1 uppercase">${i.n}</p>
+                        <p class="text-3xl font-black italic ${is_vip?'text-yellow-500':'text-blue-500'}">${i.v}</p>
                     </div>`).join('');
-                
-                // Mở màn hình con bằng hiệu ứng trượt từ phải sang
-                document.getElementById('result-page').classList.add('active');
-            }, 2000);
+            }, 1200);
         }
 
-        /* NÚT THOÁT VUỐT VỀ */
-        function x_back() {
-            const resPage = document.getElementById('result-page');
-            resPage.style.left = "100%"; // Trượt về phải để ẩn
-            setTimeout(() => {
-                resPage.classList.remove('active');
-                resPage.style.left = ""; // Reset inline style
-                document.getElementById('l-text').innerText = "READY TO SCAN...";
-            }, 500);
+        /* DPI ANDROID */
+        function x_calc_dpi() {
+            const b = document.getElementById('dpi-in').value.trim().toLowerCase();
+            if(!b) return;
+            let dpi = 411;
+            if(b.includes('\x73\x61\x6d')) dpi = 581; 
+            else if(b.includes('\x6f\x70\x70') || b.includes('\x72\x65\x61')) dpi = 480;
+            else if(b.includes('\x78\x69\x61')) dpi = 449;
+            else dpi = 411 + (new Date().getDate() % 100);
+
+            document.getElementById('res-dpi').classList.remove('hidden');
+            document.getElementById('dpi-val').innerText = dpi;
         }
 
-        /* CÁC HÀM KHÁC */
-        function x_vip() {
-            const p = prompt("ENTER VIP KEY:");
-            if(p && p.toLowerCase() === DB.cV) {
-                is_v = true;
-                document.getElementById('v-btn').innerText = "VIP ACTIVATED";
-                document.getElementById('v-btn').style.color = "#e3b341";
+        /* VIP & ADMIN */
+        function x_vip_ask() {
+            const p = prompt("NHẬP MÃ VIP:");
+            if(KEYS.all_v.includes(p?.toLowerCase())) {
+                is_vip = true;
+                document.getElementById('v-btn-hub').innerHTML = '<span class="font-black text-xs uppercase tracking-widest text-yellow-500">★ VIP ĐÃ KÍCH HOẠT</span>';
                 alert("VIP UNLOCKED!");
             }
         }
 
-        function x_admin_open() {
-            document.getElementById('login-ui').classList.add('hidden');
-            document.getElementById('admin-ui').classList.remove('hidden');
-        }
-
         function x_ad_auth() {
-            if(document.getElementById('ad-field').value === _k[2]) {
+            if(document.getElementById('ad-field').value === _0x_v[2]) {
                 document.getElementById('ad-login').classList.add('hidden');
                 document.getElementById('ad-box').classList.remove('hidden');
-                document.getElementById('ad-msg-val').value = localStorage.getItem('ghost_msg') || "CHÚC ANH EM KÉO TÂM THÀNH CÔNG!";
-                document.getElementById('list-n').innerHTML = DB.lN.map(p => `<div class="${p === DB.cN ? 'text-blue-500 font-bold' : ''}">${p}</div>`).join('');
-                document.getElementById('list-v').innerHTML = DB.lV.map(p => `<div class="${p === DB.cV ? 'text-yellow-500 font-bold' : ''}">${p}</div>`).join('');
+                document.getElementById('ad-back-btn').classList.add('hidden');
+                document.getElementById('ad-list-n').innerHTML = KEYS.all_n.map(k => `<div>• ${k}</div>`).join('');
+                document.getElementById('ad-list-v').innerHTML = KEYS.all_v.map(k => `<div>• ${k}</div>`).join('');
             }
         }
 
-        document.getElementById('sys-msg').innerText = (localStorage.getItem('ghost_msg') || "CHÚC ANH EM KÉO TÂM THÀNH CÔNG!").toUpperCase();
+        document.getElementById('h-msg').innerText = "HÃY TỰ TIN TRONG MỌI TRẬN ĐẤU!";
     </script>
 </body>
 </html>
