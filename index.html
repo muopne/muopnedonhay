@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MƯỚP NÈ - HỆ THỐNG TRA CỨU ĐỘ NHẠY</title>
+    <title>MƯỚP NÈ - V42.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap');
@@ -17,32 +17,35 @@
 
         .glass-box { background: #0d1117; border: 1px solid #30363d; border-radius: 2.5rem; }
         .btn-action { background: #0d1117; border: 1px solid #30363d; transition: 0.3s; cursor: pointer; border-radius: 1.5rem; width: 100%; }
-        .btn-action:active { transform: scale(0.95); background: #161b22; }
         .btn-pro { background: linear-gradient(135deg, #1f6feb, #0d419d); font-weight: 900; color: white; box-shadow: 0 10px 20px -10px #1f6feb; }
         
         .footer-link { position: fixed; bottom: 2rem; width: 100%; text-align: center; z-index: 50; }
-        .footer-link a { color: #484f58; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: 0.3s; }
+        .footer-link a { color: #484f58; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
 
-        .back-btn { border: 1px solid #ff3e3e44; color: #ff3e3e; background: #ff3e3e11; transition: 0.3s; width: 100%; padding: 1.2rem; border-radius: 1.2rem; font-weight: 900; text-transform: uppercase; font-size: 10px; margin-top: 2rem; margin-bottom: 5rem; }
+        .back-btn { border: 1px solid #ff3e3e44; color: #ff3e3e; background: #ff3e3e11; width: 100%; padding: 1.2rem; border-radius: 1.2rem; font-weight: 900; text-transform: uppercase; font-size: 10px; margin-top: 2rem; margin-bottom: 5rem; }
 
-        .scan-line { position: absolute; width: 100%; height: 2px; background: var(--main-blue); animation: scanning 2.5s infinite; opacity: 0.4; box-shadow: 0 0 15px var(--main-blue); }
+        .scan-line { position: absolute; width: 100%; height: 2px; background: var(--main-blue); animation: scanning 2.5s infinite; opacity: 0.4; }
         @keyframes scanning { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
         ::-webkit-scrollbar { width: 0px; }
+        
+        /* CĂN CHỈNH LOGO THẲNG HÀNG */
+        .logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+        .logo-main { font-size: 4.5rem; font-weight: 900; font-style: italic; letter-spacing: -0.05em; line-height: 1; text-align: center; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
     <div id="app-container" class="relative w-full h-full">
         
         <div id="login-screen" class="min-h-screen flex items-center justify-center p-6">
-            <div id="login-card" class="glass-box p-12 w-full max-w-sm text-center border-t-4 border-blue-600 shadow-2xl">
-                <div class="mb-14">
-                    <h1 class="text-5xl font-black text-white italic tracking-tighter uppercase leading-none block">MƯỚP NÈ</h1>
-                    <div onclick="secret_admin()" class="w-12 h-1 bg-blue-600 mx-auto my-3 rounded-full cursor-pointer"></div>
-                    <p class="text-blue-500 text-[10px] font-black uppercase tracking-[0.25em] block">HỆ THỐNG TRA CỨU ĐỘ NHẠY</p>
+            <div id="login-card" class="glass-box p-12 w-full max-w-sm border-t-4 border-blue-600 shadow-2xl">
+                <div class="logo-container mb-14">
+                    <h1 class="logo-main text-white uppercase">MƯỚP<br>NÈ</h1>
+                    <div id="secret-trigger" class="w-16 h-1.5 bg-blue-600 my-4 rounded-full cursor-pointer"></div>
+                    <p class="text-blue-500 text-[10px] font-black uppercase tracking-[0.25em] text-center">HỆ THỐNG TRA CỨU ĐỘ NHẠY</p>
                 </div>
                 <div class="space-y-4">
-                    <input type="text" id="pass-field" class="w-full p-5 rounded-3xl bg-black border border-zinc-800 text-center font-mono text-xl text-white font-bold tracking-[0.4em] outline-none" placeholder="MẬT MÃ">
+                    <input type="text" id="pass-field" class="w-full p-5 rounded-3xl bg-black border border-zinc-800 text-center font-mono text-xl text-white font-bold tracking-[0.4em]" placeholder="MẬT MÃ">
                     <button onclick="verify_access()" class="w-full btn-pro py-5 rounded-3xl text-[11px] font-black uppercase tracking-widest">KÍCH HOẠT HỆ THỐNG</button>
                 </div>
             </div>
@@ -51,10 +54,9 @@
         <div id="main-menu" class="hidden min-h-screen flex flex-col items-center py-12 px-6 opacity-0 transition-opacity duration-1000 overflow-y-auto">
             <div class="w-full max-w-md">
                 <div class="text-center mb-12">
-                    <h1 class="text-2xl font-black text-white italic uppercase tracking-tighter">TRUNG TÂM ĐIỀU KHIỂN</h1>
+                    <h1 class="text-2xl font-black text-white italic uppercase tracking-tighter">TRUNG TÂM DỮ LIỆU</h1>
                     <div class="h-1.5 w-10 bg-blue-600 mx-auto mt-2 rounded-full"></div>
                 </div>
-
                 <div class="grid grid-cols-1 gap-4">
                     <button onclick="nav('p-dna')" class="btn-action p-6 flex items-center justify-between">
                         <span class="font-black text-xs uppercase tracking-widest text-blue-400">01. ĐỘ NHẠY DNA MỖI NGÀY</span>
@@ -62,10 +64,6 @@
                     </button>
                     <button onclick="nav('p-guide')" class="btn-action p-6 flex items-center justify-between">
                         <span class="font-black text-xs uppercase tracking-widest text-green-400">02. KỸ THUẬT KÉO TÂM PRO</span>
-                        <span>➔</span>
-                    </button>
-                    <button onclick="nav('p-dpi')" class="btn-action p-6 flex items-center justify-between">
-                        <span class="font-black text-xs uppercase tracking-widest text-purple-400">03. THÔNG SỐ DPI CHUẨN</span>
                         <span>➔</span>
                     </button>
                 </div>
@@ -77,60 +75,37 @@
 
         <div id="p-dna" class="sub-page">
             <div class="max-w-md mx-auto">
-                <h2 class="text-4xl font-black italic mb-8 uppercase text-center">PHÂN TÍCH DNA</h2>
+                <h2 id="dna-title" class="text-4xl font-black italic mb-8 uppercase text-center">PHÂN TÍCH</h2>
                 <div class="glass-box p-6 mb-6 relative overflow-hidden">
                     <div id="dna-scan" class="scan-line hidden"></div>
-                    <input type="text" id="dev-input" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-xs text-white font-bold mb-4 outline-none uppercase" placeholder="NHẬP TÊN MÁY (IPHONE, REDMI, OPPO...)">
-                    <button onclick="run_dna()" class="w-full btn-pro py-4 rounded-xl text-[10px] font-black uppercase">TRÍCH XUẤT DỮ LIỆU</button>
+                    <input type="text" id="dev-input" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-xs text-white font-bold mb-4 uppercase" placeholder="TÊN THIẾT BỊ (VD: REDMI 12, IPHONE...)">
+                    <button onclick="run_dna()" class="w-full btn-pro py-4 rounded-xl text-[10px] font-black uppercase">QUÉT DNA</button>
                 </div>
                 <div id="dna-results" class="grid grid-cols-2 gap-3"></div>
-                <button onclick="back('p-dna')" class="back-btn">QUAY LẠI MENU</button>
-            </div>
-        </div>
-
-        <div id="p-guide" class="sub-page">
-            <div class="max-w-md mx-auto text-center">
-                <h2 class="text-3xl font-black italic mb-10 uppercase">HƯỚNG DẪN KÉO TÂM</h2>
-                <div class="glass-box p-8 text-xs text-zinc-400 italic leading-loose">
-                    <p class="mb-4 text-blue-500 font-bold">GIAI ĐOẠN 1: ĐẶT TÂM</p>
-                    Để tâm trắng ở phần ngực hoặc vai đối thủ. Tránh để tâm quá thấp.
-                    <p class="mt-6 mb-4 text-green-500 font-bold">GIAI ĐOẠN 2: LỰC VUỐT</p>
-                    Vuốt nút bắn theo hình chữ J dứt khoát. Tốc độ vuốt phụ thuộc vào khoảng cách.
-                </div>
-                <button onclick="back('p-guide')" class="back-btn">QUAY LẠI MENU</button>
-            </div>
-        </div>
-
-        <div id="p-dpi" class="sub-page">
-            <div class="max-w-md mx-auto">
-                <h2 class="text-3xl font-black italic mb-8 uppercase text-center">TỐI ƯU DPI</h2>
-                <div class="glass-box p-6 mb-6">
-                    <input type="text" id="dpi-input" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-xs text-white font-bold mb-4 outline-none uppercase" placeholder="NHẬP HÃNG MÁY...">
-                    <button onclick="calc_dpi()" class="w-full btn-pro py-4 rounded-xl text-[10px] font-black uppercase">TÍNH TOÁN THÔNG SỐ</button>
-                </div>
-                <div id="dpi-res" class="hidden glass-box p-10 text-center">
-                    <p class="text-[11px] text-zinc-500 font-black uppercase mb-2">DPI ĐỀ XUẤT</p>
-                    <h3 id="dpi-val" class="text-6xl font-black text-purple-500 tracking-tighter">--</h3>
-                </div>
-                <button onclick="back('p-dpi')" class="back-btn">QUAY LẠI MENU</button>
+                <button onclick="back('p-dna')" class="back-btn">QUAY LẠI</button>
             </div>
         </div>
 
         <div id="p-admin" class="sub-page">
             <div class="max-w-md mx-auto">
-                <h2 class="text-4xl font-black italic mb-8 uppercase text-center text-red-600">HỆ THỐNG QUẢN TRỊ</h2>
-                <div id="ad-login" class="glass-box p-10">
-                    <input type="password" id="ad-pass" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-center text-white mb-5 outline-none" placeholder="MẬT MÃ ADMIN">
-                    <button onclick="auth_ad()" class="w-full bg-red-600 py-4 rounded-xl text-[11px] font-black text-white uppercase">XÁC MINH QUYỀN</button>
+                <div class="glass-box p-8 mb-6 text-center border-red-600/20">
+                    <p class="text-[10px] font-black text-zinc-500 uppercase mb-2">HỆ THỐNG QUẢN TRỊ</p>
+                    <h2 class="text-xl font-black italic text-white uppercase">CHÚC ANH EM KÉO TÂM THÀNH CÔNG!</h2>
                 </div>
-                <div id="ad-info" class="hidden space-y-4">
-                    <div class="glass-box p-8 text-sm">
-                        <div class="flex justify-between mb-4"><span class="text-blue-500 font-bold uppercase text-[10px]">Pass Thường:</span><span id="key-n" class="font-mono text-white underline tracking-widest">--</span></div>
-                        <div class="flex justify-between"><span class="text-yellow-500 font-bold uppercase text-[10px]">Pass VIP:</span><span id="key-v" class="font-mono text-white underline tracking-widest">--</span></div>
-                    </div>
-                    <button onclick="location.reload()" class="w-full bg-zinc-800 py-4 rounded-xl text-[11px] font-black uppercase">ĐĂNG XUẤT</button>
+                
+                <div class="glass-box p-8 mb-6 border-blue-600/20">
+                    <p class="text-blue-500 font-black text-center text-xs uppercase mb-6 tracking-widest">BẢNG MÃ THƯỜNG</p>
+                    <div id="list-normal" class="space-y-3 text-center font-mono text-zinc-500 text-sm">
+                        </div>
                 </div>
-                <button onclick="back('p-admin')" class="back-btn">ĐÓNG QUẢN TRỊ</button>
+
+                <div class="glass-box p-8 border-yellow-600/20">
+                    <p class="text-yellow-500 font-black text-center text-xs uppercase mb-6 tracking-widest">BẢNG MÃ VIP</p>
+                    <div id="list-vip" class="space-y-3 text-center font-mono text-zinc-500 text-sm">
+                        </div>
+                </div>
+                
+                <button onclick="back('p-admin')" class="back-btn">THOÁT QUẢN TRỊ</button>
             </div>
         </div>
 
@@ -144,64 +119,66 @@
     </div>
 
     <script>
-        const _0x_p = ["\x6d\x75\x6f\x70\x6e\x65", "\x76\x69\x70", "\x6d\x75\x6f\x70\x6e\x65\x64\x7a"];
-        
+        /* MÃ HÓA CƠ SỞ */
+        const _0x_v = ["\x6d\x75\x6f\x70\x6e\x65", "\x76\x69\x70", "\x6d\x75\x6f\x70\x6e\x65\x64\x7a"];
         function _0x_lun() { return (new Date().getDate() + 12) % 30 || 30; }
         
         function _0x_keys() {
             const d = new Date().getDate(); const l = _0x_lun(); let s = d + l;
             if (d < 10) { s += (d - 1) + (d % 2 !== 0 ? 2 : (l % 10 + 1)); }
             else { s += (d + 1) + (d % 2 !== 0 ? 5 : Math.floor(l / 10)); }
-            return { n: _0x_p[0] + s, v: _0x_p[1] + (s + 52) };
+            return { n: _0x_v[0] + s, v: _0x_v[1] + (s + 52) };
         }
 
         const K = _0x_keys();
         let IS_V = false;
-        let ad_count = 0;
 
-        /* SECRET ADMIN ENTRY: CLICK 5 TIMES ON THE BLUE LINE */
-        function secret_admin() {
-            ad_count++;
-            if(ad_count >= 5) { ad_count = 0; nav('p-admin'); }
+        /* SỬA LỖI ADMIN: LONG PRESS 3 SECONDS ON BLUE LINE */
+        let pressTimer;
+        const trigger = document.getElementById('secret-trigger');
+        trigger.addEventListener('mousedown', () => pressTimer = setTimeout(() => nav('p-admin'), 3000));
+        trigger.addEventListener('mouseup', () => clearTimeout(pressTimer));
+        trigger.addEventListener('touchstart', () => pressTimer = setTimeout(() => nav('p-admin'), 3000));
+        trigger.addEventListener('touchend', () => clearTimeout(pressTimer));
+
+        /* SINH BẢNG MÃ GIỐNG HÌNH */
+        function gen_admin_table() {
+            const listN = document.getElementById('list-normal');
+            const listV = document.getElementById('list-vip');
+            listN.innerHTML = Array.from({length: 5}, (_, i) => `<p>${_0x_v[0]}${K.n.slice(-2)-5+i}-${812+i*100}</p>`).join('') + `<p class="text-blue-500 font-black">${K.n}-${1512}</p>`;
+            listV.innerHTML = Array.from({length: 3}, (_, i) => `<p>${_0x_v[1]}${K.v.slice(-2)-3+i}-${212+i*100}</p>`).join('');
         }
+        gen_admin_table();
 
         function verify_access() {
-            const val = document.getElementById('pass-field').value.trim().toLowerCase();
-            if (val === K.n || val === K.v) {
-                if (val === K.v) { IS_V = true; document.getElementById('vip-tag').classList.remove('hidden'); }
+            const i = document.getElementById('pass-field').value.trim().toLowerCase();
+            if (i === K.n || i === K.v) {
+                if (i === K.v) { IS_V = true; document.getElementById('vip-tag').classList.remove('hidden'); }
                 document.getElementById('login-card').classList.add('implosion');
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     const m = document.getElementById('main-menu');
-                    m.classList.remove('hidden');
-                    setTimeout(() => m.style.opacity = '1', 50);
+                    m.classList.remove('hidden'); setTimeout(() => m.style.opacity = '1', 50);
                 }, 800);
-            } else alert("MẬT MÃ KHÔNG CHÍNH XÁC!");
-        }
-
-        function auth_ad() {
-            if (document.getElementById('ad-pass').value === _0x_p[2]) {
-                document.getElementById('ad-login').classList.add('hidden');
-                document.getElementById('ad-info').classList.remove('hidden');
-                document.getElementById('key-n').innerText = K.n;
-                document.getElementById('key-v').innerText = K.v;
-            }
+            } else alert("MẬT MÃ SAI!");
         }
 
         function run_dna() {
-            const dev = document.getElementById('dev-input').value.trim().toLowerCase();
+            const dev = document.getElementById('dev-input').value.trim().toUpperCase();
             if(!dev) return;
             document.getElementById('dna-scan').classList.remove('hidden');
             setTimeout(() => {
-                let seed = 0; const seedStr = dev + new Date().toDateString();
-                for(let i=0; i<seedStr.length; i++) seed = ((seed << 5) - seed) + seedStr.charCodeAt(i);
+                let seed = 0; const sStr = dev + new Date().toDateString();
+                for(let i=0; i<sStr.length; i++) seed = ((seed << 5) - seed) + sStr.charCodeAt(i);
                 seed = Math.abs(seed);
-                const isIP = dev.includes('ip') || dev.includes('ios') || dev.includes('apple');
+                const isIP = dev.includes('IP') || dev.includes('IOS');
                 let nxq = isIP ? (150 + (seed % 50)) : (180 + (seed % 20));
+                
+                document.getElementById('dna-title').innerText = dev;
                 const res = [
-                    {t: "NHÌN XUNG QUANH", v: nxq}, {t: "RED DOT SIGHT", v: nxq + (seed % 2)},
-                    {t: "ỐNG NGẮM 2X", v: nxq - (IS_V?2:5)}, {t: "ỐNG NGẮM 4X", v: nxq - (IS_V?4:8)},
-                    {t: "SÚNG NGẮM", v: 75 + (seed % 15)}, {t: "NÚT BẮN", v: (IS_V?42:47) + (seed % 3) + "%"}
+                    {t: "NHÌN XUNG QUANH", v: nxq}, {t: "RED DOT", v: nxq + 2},
+                    {t: "ỐNG NGẮM 2X", v: nxq - 3}, {t: "ỐNG NGẮM 4X", v: nxq - 5},
+                    {t: "SNIPER", v: 60 + (seed % 10)}, {t: "NÚT BẮN", v: (IS_V?42:46) + "%"}
                 ];
                 document.getElementById('dna-scan').classList.add('hidden');
                 document.getElementById('dna-results').innerHTML = res.map(o => `
@@ -210,15 +187,6 @@
                         <p class="text-3xl font-black italic ${IS_V?'text-yellow-500':'text-blue-500'}">${o.v}</p>
                     </div>`).join('');
             }, 1500);
-        }
-
-        function calc_dpi() {
-            const b = document.getElementById('dpi-input').value.trim().toLowerCase();
-            if(!b) return;
-            let val = 411;
-            if(b.includes('sam')) val = 581; else if(b.includes('opp') || b.includes('rea')) val = 480; else val = 449;
-            document.getElementById('dpi-res').classList.remove('hidden');
-            document.getElementById('dpi-val').innerText = val;
         }
 
         function nav(id) { document.getElementById(id).classList.add('active'); }
