@@ -3,194 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MƯỚP NÈ - V42.0</title>
+    <title>MƯỚP NÈ - V44.0 OFFICIAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap');
         :root { --main-blue: #1f6feb; --bg-dark: #010409; }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-        body { background: var(--bg-dark); color: #f0f6fc; font-family: 'Lexend', sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; user-select: none; }
+        body { background: var(--bg-dark); color: #f0f6fc; font-family: 'Lexend', sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; user-select: none; display: flex; align-items: center; justify-content: center; }
 
-        .implosion { transform: scale(0); opacity: 0; filter: blur(25px); transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
-        .sub-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg-dark); z-index: 100; transition: left 0.5s cubic-bezier(0.7, 0, 0.3, 1); overflow-y: auto; padding: 2.5rem 1.5rem; }
+        /* Frame chính khớp ảnh 1000025103.jpg */
+        .app-shell { border: 2px solid #1f6feb55; border-radius: 4rem; width: 92%; max-width: 400px; height: 88vh; position: relative; display: flex; flex-direction: column; align-items: center; padding: 2rem; overflow: hidden; }
+
+        .sub-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg-dark); z-index: 100; transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; padding: 2.5rem 1.5rem; }
         .sub-page.active { left: 0; }
 
-        .glass-box { background: #0d1117; border: 1px solid #30363d; border-radius: 2.5rem; }
-        .btn-action { background: #0d1117; border: 1px solid #30363d; transition: 0.3s; cursor: pointer; border-radius: 1.5rem; width: 100%; }
-        .btn-pro { background: linear-gradient(135deg, #1f6feb, #0d419d); font-weight: 900; color: white; box-shadow: 0 10px 20px -10px #1f6feb; }
+        .glass-input { background: #080a0c; border: 1px solid #161b22; border-radius: 2rem; color: white; text-align: center; font-weight: bold; width: 100%; padding: 1.2rem; outline: none; }
+        .btn-main { background: linear-gradient(180deg, #1f6feb, #0d419d); border-radius: 2rem; width: 100%; padding: 1.3rem; font-weight: 900; color: white; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; box-shadow: 0 5px 15px rgba(31, 111, 235, 0.3); }
         
-        .footer-link { position: fixed; bottom: 2rem; width: 100%; text-align: center; z-index: 50; }
-        .footer-link a { color: #484f58; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+        .btn-item { background: #0d1117; border: 1px solid #30363d; border-radius: 2rem; width: 100%; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .btn-item:active { background: #161b22; transform: scale(0.97); }
 
-        .back-btn { border: 1px solid #ff3e3e44; color: #ff3e3e; background: #ff3e3e11; width: 100%; padding: 1.2rem; border-radius: 1.2rem; font-weight: 900; text-transform: uppercase; font-size: 10px; margin-top: 2rem; margin-bottom: 5rem; }
+        .logo-box { text-align: center; margin-bottom: 3rem; margin-top: 2rem; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .logo-text { font-size: 4.8rem; font-weight: 900; font-style: italic; color: white; text-transform: uppercase; line-height: 0.85; letter-spacing: -3px; }
+        .blue-bar { width: 50px; height: 6px; background: var(--main-blue); border-radius: 99px; margin: 1.5rem 0; }
 
-        .scan-line { position: absolute; width: 100%; height: 2px; background: var(--main-blue); animation: scanning 2.5s infinite; opacity: 0.4; }
-        @keyframes scanning { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
+        .footer-link { position: absolute; bottom: 3rem; font-size: 11px; font-weight: 800; color: #30363d; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+        
+        .scan-anim { position: absolute; width: 100%; height: 2px; background: var(--main-blue); animation: move 2.5s infinite; opacity: 0.5; box-shadow: 0 0 10px var(--main-blue); }
+        @keyframes move { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
         ::-webkit-scrollbar { width: 0px; }
-        
-        /* CĂN CHỈNH LOGO THẲNG HÀNG */
-        .logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
-        .logo-main { font-size: 4.5rem; font-weight: 900; font-style: italic; letter-spacing: -0.05em; line-height: 1; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div id="app-container" class="relative w-full h-full">
+    <div class="app-shell">
         
-        <div id="login-screen" class="min-h-screen flex items-center justify-center p-6">
-            <div id="login-card" class="glass-box p-12 w-full max-w-sm border-t-4 border-blue-600 shadow-2xl">
-                <div class="logo-container mb-14">
-                    <h1 class="logo-main text-white uppercase">MƯỚP<br>NÈ</h1>
-                    <div id="secret-trigger" class="w-16 h-1.5 bg-blue-600 my-4 rounded-full cursor-pointer"></div>
-                    <p class="text-blue-500 text-[10px] font-black uppercase tracking-[0.25em] text-center">HỆ THỐNG TRA CỨU ĐỘ NHẠY</p>
-                </div>
-                <div class="space-y-4">
-                    <input type="text" id="pass-field" class="w-full p-5 rounded-3xl bg-black border border-zinc-800 text-center font-mono text-xl text-white font-bold tracking-[0.4em]" placeholder="MẬT MÃ">
-                    <button onclick="verify_access()" class="w-full btn-pro py-5 rounded-3xl text-[11px] font-black uppercase tracking-widest">KÍCH HOẠT HỆ THỐNG</button>
-                </div>
+        <div id="screen-login" class="w-full flex flex-col items-center">
+            <div class="logo-box">
+                <h1 class="logo-text">MƯỚP<br>NÈ</h1>
+                <div class="blue-bar"></div>
+                <p class="text-blue-500 text-[10px] font-black uppercase tracking-[0.3em]">HỆ THỐNG TRA CỨU ĐỘ NHẠY</p>
+            </div>
+
+            <div class="w-full px-4 space-y-5">
+                <input type="text" id="pass-in" class="glass-input font-mono text-xl tracking-[0.5em]" placeholder="MẬT MÃ">
+                <button onclick="check_access()" class="btn-main">KÍCH HOẠT HỆ THỐNG</button>
             </div>
         </div>
 
-        <div id="main-menu" class="hidden min-h-screen flex flex-col items-center py-12 px-6 opacity-0 transition-opacity duration-1000 overflow-y-auto">
-            <div class="w-full max-w-md">
-                <div class="text-center mb-12">
-                    <h1 class="text-2xl font-black text-white italic uppercase tracking-tighter">TRUNG TÂM DỮ LIỆU</h1>
-                    <div class="h-1.5 w-10 bg-blue-600 mx-auto mt-2 rounded-full"></div>
-                </div>
-                <div class="grid grid-cols-1 gap-4">
-                    <button onclick="nav('p-dna')" class="btn-action p-6 flex items-center justify-between">
-                        <span class="font-black text-xs uppercase tracking-widest text-blue-400">01. ĐỘ NHẠY DNA MỖI NGÀY</span>
-                        <span>➔</span>
-                    </button>
-                    <button onclick="nav('p-guide')" class="btn-action p-6 flex items-center justify-between">
-                        <span class="font-black text-xs uppercase tracking-widest text-green-400">02. KỸ THUẬT KÉO TÂM PRO</span>
-                        <span>➔</span>
-                    </button>
-                </div>
-                <div id="vip-tag" class="hidden mt-10 p-5 glass-box border-yellow-600/30 text-center animate-pulse">
-                    <p class="text-[10px] text-yellow-500 font-black uppercase tracking-[0.3em]">★ TRẠNG THÁI: VIP ĐÃ KÍCH HOẠT ★</p>
-                </div>
+        <div id="screen-menu" class="hidden absolute inset-0 w-full h-full flex flex-col items-center p-10 opacity-0 transition-opacity duration-700">
+            <h2 class="text-2xl font-black italic text-white uppercase tracking-tighter mb-1">TRUNG TÂM DỮ LIỆU</h2>
+            <div class="w-10 h-1 bg-blue-600 mb-10 rounded-full"></div>
+
+            <div class="w-full space-y-1">
+                <button onclick="nav('p-dna')" class="btn-item">
+                    <span class="text-blue-500 font-black text-[11px] uppercase tracking-widest">01. ĐỘ NHẠY DNA MỖI NGÀY</span>
+                    <span class="text-white text-sm">➔</span>
+                </button>
+                <button onclick="nav('p-guide')" class="btn-item">
+                    <span class="text-green-500 font-black text-[11px] uppercase tracking-widest">02. KỸ THUẬT KÉO TÂM PRO</span>
+                    <span class="text-white text-sm">➔</span>
+                </button>
+                <button onclick="nav('p-dpi')" class="btn-item">
+                    <span class="text-purple-500 font-black text-[11px] uppercase tracking-widest">03. THÔNG SỐ DPI ANDROID</span>
+                    <span class="text-white text-sm">➔</span>
+                </button>
+                <button onclick="nav('p-macro')" class="btn-item">
+                    <span class="text-yellow-500 font-black text-[11px] uppercase tracking-widest">04. MACRO & REGEDIT IP</span>
+                    <span class="text-white text-sm">➔</span>
+                </button>
             </div>
-        </div>
-
-        <div id="p-dna" class="sub-page">
-            <div class="max-w-md mx-auto">
-                <h2 id="dna-title" class="text-4xl font-black italic mb-8 uppercase text-center">PHÂN TÍCH</h2>
-                <div class="glass-box p-6 mb-6 relative overflow-hidden">
-                    <div id="dna-scan" class="scan-line hidden"></div>
-                    <input type="text" id="dev-input" class="w-full p-4 rounded-xl bg-black border border-zinc-800 text-xs text-white font-bold mb-4 uppercase" placeholder="TÊN THIẾT BỊ (VD: REDMI 12, IPHONE...)">
-                    <button onclick="run_dna()" class="w-full btn-pro py-4 rounded-xl text-[10px] font-black uppercase">QUÉT DNA</button>
-                </div>
-                <div id="dna-results" class="grid grid-cols-2 gap-3"></div>
-                <button onclick="back('p-dna')" class="back-btn">QUAY LẠI</button>
-            </div>
-        </div>
-
-        <div id="p-admin" class="sub-page">
-            <div class="max-w-md mx-auto">
-                <div class="glass-box p-8 mb-6 text-center border-red-600/20">
-                    <p class="text-[10px] font-black text-zinc-500 uppercase mb-2">HỆ THỐNG QUẢN TRỊ</p>
-                    <h2 class="text-xl font-black italic text-white uppercase">CHÚC ANH EM KÉO TÂM THÀNH CÔNG!</h2>
-                </div>
-                
-                <div class="glass-box p-8 mb-6 border-blue-600/20">
-                    <p class="text-blue-500 font-black text-center text-xs uppercase mb-6 tracking-widest">BẢNG MÃ THƯỜNG</p>
-                    <div id="list-normal" class="space-y-3 text-center font-mono text-zinc-500 text-sm">
-                        </div>
-                </div>
-
-                <div class="glass-box p-8 border-yellow-600/20">
-                    <p class="text-yellow-500 font-black text-center text-xs uppercase mb-6 tracking-widest">BẢNG MÃ VIP</p>
-                    <div id="list-vip" class="space-y-3 text-center font-mono text-zinc-500 text-sm">
-                        </div>
-                </div>
-                
-                <button onclick="back('p-admin')" class="back-btn">THOÁT QUẢN TRỊ</button>
+            
+            <div id="vip-badge" class="hidden mt-8 p-4 border border-yellow-600/20 rounded-3xl text-center">
+                <p class="text-[9px] text-yellow-600 font-black uppercase tracking-widest animate-pulse">★ VIP STATUS: ACTIVE ★</p>
             </div>
         </div>
 
         <div class="footer-link">
-            <a href="https://tiktok.com/@muopnelive" target="_blank">
-                LIÊN HỆ MƯỚP NÈ Ở ĐÂY 
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.47V18.5c0 1.5-.42 3.04-1.4 4.16-1.44 1.61-3.9 2.25-5.9 1.56-1.92-.61-3.41-2.4-3.66-4.38-.34-2.27.87-4.66 2.91-5.64 1.12-.54 2.4-.73 3.6-.52v4.11c-.72-.19-1.52-.14-2.18.23-.74.4-1.18 1.2-1.11 2.03.05.9.83 1.69 1.73 1.77.92.1 1.89-.4 2.15-1.3.11-.35.13-.73.13-1.1V.02z"/></svg>
-            </a>
+            LIÊN HỆ MƯỚP NÈ Ở ĐÂY <span class="text-sm">🎵</span>
         </div>
 
     </div>
 
+    <div id="p-dna" class="sub-page">
+        <h2 class="text-4xl font-black italic mb-8 uppercase text-center">PHÂN TÍCH</h2>
+        <div class="bg-[#0d1117] border border-[#30363d] p-6 rounded-[2.5rem] relative overflow-hidden">
+            <div id="dna-load" class="scan-anim hidden"></div>
+            <input type="text" id="dev-name" class="glass-input text-xs mb-4" placeholder="TÊN MÁY (IPHONE, OPPO, SAMSUNG...)">
+            <button onclick="start_dna()" class="btn-main text-[10px]">QUÉT DNA HỆ THỐNG</button>
+        </div>
+        <div id="dna-res" class="grid grid-cols-2 gap-3 mt-6"></div>
+        <button onclick="close_p('p-dna')" class="w-full py-4 mt-8 bg-red-500/10 text-red-500 font-black rounded-2xl uppercase text-[10px]">QUAY LẠI</button>
+    </div>
+
+    <div id="p-guide" class="sub-page">
+        <h2 class="text-3xl font-black italic mb-10 uppercase text-center">HƯỚNG DẪN</h2>
+        <div class="bg-[#0d1117] p-8 rounded-[2.5rem] border border-zinc-800 text-xs text-zinc-400 italic leading-loose">
+            <p class="text-blue-500 font-bold mb-4 uppercase">Kỹ thuật vuốt tâm:</p>
+            1. Đặt tâm trắng dưới chân hoặc ngang ngực.<br>
+            2. Vuốt nút bắn theo hình chữ J ngược lên trên.<br>
+            3. Tốc độ vuốt nhanh hay chậm tùy thuộc vào độ nhạy DNA.
+        </div>
+        <button onclick="close_p('p-guide')" class="w-full py-4 mt-8 bg-zinc-900 text-zinc-500 font-black rounded-2xl uppercase text-[10px]">QUAY LẠI</button>
+    </div>
+
+    <div id="p-dpi" class="sub-page">
+        <h2 class="text-3xl font-black italic mb-10 uppercase text-center">DPI ANDROID</h2>
+        <div class="bg-[#0d1117] p-8 rounded-[2.5rem] border border-zinc-800">
+            <input type="text" id="dpi-dev" class="glass-input text-xs mb-4" placeholder="NHẬP DÒNG MÁY ANDROID...">
+            <button onclick="calc_dpi()" class="btn-main text-[10px]">TÍNH TOÁN DPI</button>
+        </div>
+        <div id="dpi-box" class="hidden mt-6 bg-purple-500/10 p-10 rounded-[2.5rem] text-center border border-purple-500/20">
+            <p class="text-zinc-500 text-[10px] font-black mb-2 uppercase">DPI ĐỀ XUẤT</p>
+            <h3 id="dpi-val" class="text-6xl font-black text-purple-500">--</h3>
+        </div>
+        <button onclick="close_p('p-dpi')" class="w-full py-4 mt-8 bg-zinc-900 text-zinc-500 font-black rounded-2xl uppercase text-[10px]">QUAY LẠI</button>
+    </div>
+
+    <div id="p-macro" class="sub-page">
+        <h2 class="text-3xl font-black italic mb-10 uppercase text-center">REGEDIT IP</h2>
+        <div class="bg-[#0d1117] p-8 rounded-[2.5rem] border border-zinc-800 space-y-6">
+            <div class="flex justify-between border-b border-zinc-900 pb-4">
+                <span class="text-[10px] text-zinc-500 font-black uppercase">Tracking Sens</span>
+                <span class="text-sm font-bold text-yellow-500">MAX</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-[10px] text-zinc-500 font-black uppercase">Cursor Speed</span>
+                <span class="text-sm font-bold text-yellow-500">10/10</span>
+            </div>
+        </div>
+        <button onclick="close_p('p-macro')" class="w-full py-4 mt-8 bg-zinc-900 text-zinc-500 font-black rounded-2xl uppercase text-[10px]">QUAY LẠI</button>
+    </div>
+
+    <div id="p-admin" class="sub-page">
+        <h2 class="text-4xl font-black italic mb-8 uppercase text-center text-red-600">ADMIN CONTROL</h2>
+        <div class="bg-[#0d1117] p-8 rounded-[2.5rem] border border-blue-600/20">
+            <p class="text-blue-500 font-black text-center text-[10px] uppercase mb-6 tracking-widest">MÃ TRUY CẬP HÔM NAY</p>
+            <div class="space-y-4">
+                <div class="flex justify-between text-sm border-b border-zinc-800 pb-3"><span>THƯỜNG:</span><span id="key-n" class="font-mono text-white underline">--</span></div>
+                <div class="flex justify-between text-sm"><span>VIP:</span><span id="key-v" class="font-mono text-yellow-500 underline">--</span></div>
+            </div>
+        </div>
+        <button onclick="location.reload()" class="w-full py-4 mt-8 bg-red-600 text-white font-black rounded-2xl uppercase text-[10px]">ĐĂNG XUẤT</button>
+    </div>
+
     <script>
-        /* MÃ HÓA CƠ SỞ */
-        const _0x_v = ["\x6d\x75\x6f\x70\x6e\x65", "\x76\x69\x70", "\x6d\x75\x6f\x70\x6e\x65\x64\x7a"];
-        function _0x_lun() { return (new Date().getDate() + 12) % 30 || 30; }
-        
-        function _0x_keys() {
-            const d = new Date().getDate(); const l = _0x_lun(); let s = d + l;
+        const _0x_v = ["\x6d\x75\x6f\x70\x6e\x65", "\x76\x69\x70"];
+        let failCount = 0;
+        let isVIP = false;
+
+        function _0x_lunar() { return (new Date().getDate() + 12) % 30 || 30; }
+        function _0x_gen() {
+            const d = new Date().getDate(); const l = _0x_lunar(); let s = d + l;
             if (d < 10) { s += (d - 1) + (d % 2 !== 0 ? 2 : (l % 10 + 1)); }
             else { s += (d + 1) + (d % 2 !== 0 ? 5 : Math.floor(l / 10)); }
             return { n: _0x_v[0] + s, v: _0x_v[1] + (s + 52) };
         }
+        const K = _0x_gen();
 
-        const K = _0x_keys();
-        let IS_V = false;
-
-        /* SỬA LỖI ADMIN: LONG PRESS 3 SECONDS ON BLUE LINE */
-        let pressTimer;
-        const trigger = document.getElementById('secret-trigger');
-        trigger.addEventListener('mousedown', () => pressTimer = setTimeout(() => nav('p-admin'), 3000));
-        trigger.addEventListener('mouseup', () => clearTimeout(pressTimer));
-        trigger.addEventListener('touchstart', () => pressTimer = setTimeout(() => nav('p-admin'), 3000));
-        trigger.addEventListener('touchend', () => clearTimeout(pressTimer));
-
-        /* SINH BẢNG MÃ GIỐNG HÌNH */
-        function gen_admin_table() {
-            const listN = document.getElementById('list-normal');
-            const listV = document.getElementById('list-vip');
-            listN.innerHTML = Array.from({length: 5}, (_, i) => `<p>${_0x_v[0]}${K.n.slice(-2)-5+i}-${812+i*100}</p>`).join('') + `<p class="text-blue-500 font-black">${K.n}-${1512}</p>`;
-            listV.innerHTML = Array.from({length: 3}, (_, i) => `<p>${_0x_v[1]}${K.v.slice(-2)-3+i}-${212+i*100}</p>`).join('');
-        }
-        gen_admin_table();
-
-        function verify_access() {
-            const i = document.getElementById('pass-field').value.trim().toLowerCase();
-            if (i === K.n || i === K.v) {
-                if (i === K.v) { IS_V = true; document.getElementById('vip-tag').classList.remove('hidden'); }
-                document.getElementById('login-card').classList.add('implosion');
-                setTimeout(() => {
-                    document.getElementById('login-screen').style.display = 'none';
-                    const m = document.getElementById('main-menu');
-                    m.classList.remove('hidden'); setTimeout(() => m.style.opacity = '1', 50);
-                }, 800);
-            } else alert("MẬT MÃ SAI!");
+        /* LOGIN LOGIC WITH SECRET ADMIN TRIGGER */
+        function check_access() {
+            const val = document.getElementById('pass-in').value.trim().toLowerCase();
+            if (val === K.n || val === K.v) {
+                if (val === K.v) { isVIP = true; document.getElementById('vip-badge').classList.remove('hidden'); }
+                document.getElementById('screen-login').style.display = 'none';
+                const m = document.getElementById('screen-menu');
+                m.classList.remove('hidden');
+                setTimeout(() => m.style.opacity = '1', 50);
+                failCount = 0; 
+            } else {
+                failCount++;
+                if(failCount >= 5) {
+                    alert("PHÁT HIỆN CHỦ NHÂN! ĐANG MỞ ADMIN...");
+                    document.getElementById('key-n').innerText = K.n;
+                    document.getElementById('key-v').innerText = K.v;
+                    nav('p-admin');
+                    failCount = 0;
+                } else {
+                    alert(`SAI MẬT MÃ! (${failCount}/5)`);
+                }
+            }
         }
 
-        function run_dna() {
-            const dev = document.getElementById('dev-input').value.trim().toUpperCase();
+        /* DNA LOGIC (ANDROID 180-199 | IPHONE 150-199) */
+        function start_dna() {
+            const dev = document.getElementById('dev-name').value.trim().toUpperCase();
             if(!dev) return;
-            document.getElementById('dna-scan').classList.remove('hidden');
+            document.getElementById('dna-load').classList.remove('hidden');
             setTimeout(() => {
                 let seed = 0; const sStr = dev + new Date().toDateString();
                 for(let i=0; i<sStr.length; i++) seed = ((seed << 5) - seed) + sStr.charCodeAt(i);
                 seed = Math.abs(seed);
-                const isIP = dev.includes('IP') || dev.includes('IOS');
+                
+                const isIP = dev.includes('IPHONE') || dev.includes('IOS') || dev.includes('APPLE');
                 let nxq = isIP ? (150 + (seed % 50)) : (180 + (seed % 20));
                 
-                document.getElementById('dna-title').innerText = dev;
                 const res = [
-                    {t: "NHÌN XUNG QUANH", v: nxq}, {t: "RED DOT", v: nxq + 2},
-                    {t: "ỐNG NGẮM 2X", v: nxq - 3}, {t: "ỐNG NGẮM 4X", v: nxq - 5},
-                    {t: "SNIPER", v: 60 + (seed % 10)}, {t: "NÚT BẮN", v: (IS_V?42:46) + "%"}
+                    {t: "NHÌN XUNG QUANH", v: nxq}, {t: "RED DOT SIGHT", v: nxq + 1},
+                    {t: "ỐNG NGẮM 2X", v: nxq - (isVIP?2:5)}, {t: "ỐNG NGẮM 4X", v: nxq - (isVIP?4:8)},
+                    {t: "SNIPER MODE", v: 65 + (seed % 10)}, {t: "NÚT BẮN", v: (isVIP?43:47) + "%"}
                 ];
-                document.getElementById('dna-scan').classList.add('hidden');
-                document.getElementById('dna-results').innerHTML = res.map(o => `
-                    <div class="glass-box p-5 text-center border-zinc-800">
+                document.getElementById('dna-load').classList.add('hidden');
+                document.getElementById('dna-res').innerHTML = res.map(o => `
+                    <div class="bg-[#0d1117] p-5 text-center border border-zinc-800 rounded-3xl">
                         <p class="text-[7px] text-zinc-500 font-black mb-1 uppercase">${o.t}</p>
-                        <p class="text-3xl font-black italic ${IS_V?'text-yellow-500':'text-blue-500'}">${o.v}</p>
+                        <p class="text-3xl font-black italic ${isVIP?'text-yellow-500':'text-blue-500'}">${o.v}</p>
                     </div>`).join('');
-            }, 1500);
+            }, 1200);
+        }
+
+        /* DPI CALCULATOR (ANDROID ONLY) */
+        function calc_dpi() {
+            const d = document.getElementById('dpi-dev').value.trim().toLowerCase();
+            if(!d) return;
+            if(d.includes('iphone') || d.includes('ios')) {
+                alert("IPHONE KHÔNG CẦN CHỈNH DPI TRONG CÀI ĐẶT NHÀ PHÁT TRIỂN!");
+                return;
+            }
+            let val = 411;
+            if(d.includes('sam')) val = 581; else if(d.includes('opp') || d.includes('rea')) val = 480; else val = 449;
+            document.getElementById('dpi-box').classList.remove('hidden');
+            document.getElementById('dpi-val').innerText = val;
         }
 
         function nav(id) { document.getElementById(id).classList.add('active'); }
-        function back(id) { document.getElementById(id).classList.remove('active'); }
+        function close_p(id) { document.getElementById(id).classList.remove('active'); }
     </script>
 </body>
 </html>
